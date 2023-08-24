@@ -1,16 +1,21 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import type { IUser } from '@/api/user'
+import { userInfo } from '@/api/user'
 
-interface IUser {
-  id: string
-  username: string
-  nickname: string
-  avatar?: string
-}
 export const useUserStore = defineStore('user', () => {
   const user = ref<IUser>()
+  async function queryUserInfo() {
+    const res = await userInfo()
+    user.value = res
+    return res
+  }
 
+  async function init() {
+    return await Promise.all([queryUserInfo()])
+  }
   return {
     user,
+    init,
   }
 })
 

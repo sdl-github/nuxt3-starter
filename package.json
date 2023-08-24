@@ -27,6 +27,7 @@
     "@vite-pwa/nuxt": "^0.1.0",
     "@vueuse/nuxt": "^10.3.0",
     "ant-design-vue": "^4.0.1",
+    "axios": "^1.4.0",
     "consola": "^3.2.3",
     "cross-env": "^7.0.3",
     "eslint": "^8.46.0",

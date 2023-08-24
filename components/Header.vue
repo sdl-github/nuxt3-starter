@@ -1,6 +1,14 @@
 <script setup lang="ts">
+import LoginModal, { useModal } from './LoginModal.vue'
+
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
+
+const model = useModal()
+
+function handleOpenLogin() {
+  model.setOpen(true)
+}
 </script>
 
 <template>
@@ -30,7 +38,9 @@ const user = computed(() => userStore.user)
           </a-dropdown>
         </template>
         <template v-else>
-          <a-button class="ml-4" type="primary">
+          <LoginModal />
+
+          <a-button class="ml-4" @click="handleOpenLogin">
             登录
           </a-button>
         </template>
@@ -41,22 +51,22 @@ const user = computed(() => userStore.user)
 
 <style lang="scss" scoped>
 .layout-header {
-    position: sticky;
-    top: 0;
-    box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
-    z-index: 1;
-    align-items: center;
-    width: 100%;
-    background: #fff;
-    padding: 0;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+  z-index: 1;
+  align-items: center;
+  width: 100%;
+  background: #fff;
+  padding: 0;
 }
 
 .gradient-text {
-    //   background-image: linear-gradient(20deg, #E21143, #FFB03A);
-    background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
-    background-clip: text;
-    color: transparent;
-    -webkit-background-clip: text;
-    user-select: none;
+  // background-image: linear-gradient(20deg, #E21143, #FFB03A);
+  background-image: linear-gradient(to right, #00c6fb 0%, #005bea 100%);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+  user-select: none;
 }
 </style>
