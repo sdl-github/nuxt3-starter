@@ -10,14 +10,23 @@ export function accountLogin(username: string, password: string): Promise<string
 }
 
 export interface IUser {
-  id: string
-  username: string
-  nickname: string
+  id?: string
+  username?: string
+  nickname?: string
   avatar?: string
+  note?: string
 }
 
 export function userInfo(): Promise<IUser> {
   return request({
     url: '/user/userInfo',
+  })
+}
+
+export function updateUserProfile(data: IUser) {
+  return request({
+    url: '/user/profile',
+    method: 'PUT',
+    data,
   })
 }

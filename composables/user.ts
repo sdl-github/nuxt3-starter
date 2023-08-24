@@ -4,6 +4,7 @@ import { userInfo } from '@/api/user'
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<IUser>()
+  const router = useRouter()
   async function queryUserInfo() {
     const res = await userInfo()
     user.value = res
@@ -13,9 +14,17 @@ export const useUserStore = defineStore('user', () => {
   async function init() {
     return await Promise.all([queryUserInfo()])
   }
+
+  function logout() {
+    user.value = {}
+    removeToken()
+    router.push('/')
+  }
+
   return {
     user,
     init,
+    logout,
   }
 })
 

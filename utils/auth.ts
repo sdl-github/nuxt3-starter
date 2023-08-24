@@ -1,4 +1,4 @@
-import { getLocalStorage, removeLocalStorage, setLocalStorage } from "./utils"
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from './utils'
 
 const TokenKey = 'Admin-Token'
 

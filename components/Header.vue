@@ -3,11 +3,15 @@ import LoginModal, { useModal } from './LoginModal.vue'
 
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
-
+const router = useRouter()
 const model = useModal()
 
 function handleOpenLogin() {
   model.setOpen(true)
+}
+
+function handleLogout() {
+  userStore.logout()
 }
 </script>
 
@@ -15,21 +19,34 @@ function handleOpenLogin() {
   <a-layout-header class="layout-header">
     <div class="m-auto h-[100%] max-w-[980px] flex items-center justify-between">
       <div class="gradient-text cursor-pointer text-xl font-bold">
-        Cloud Logo
+        <NuxtLink to="/">
+          Cloud Logo
+        </NuxtLink>
       </div>
       <div class="flex cursor-pointer items-center">
         <template v-if="user?.id">
           <a-dropdown>
             <div>
-              <a-avatar style="background-color: #1890ff" :src="user?.avatar">
-                {{ user?.username }}
+              <a-avatar :src="user?.avatar">
+                {{ user?.nickname }}
               </a-avatar>
+              <span class="ml-2 text-sm">
+                {{ user?.nickname }}
+              </span>
             </div>
             <template #overlay>
               <a-menu>
                 <a-menu-item>
                   <template #icon>
-                    <div class="i-ri-logout-box-line" />
+                    <div class="i-carbon-settings" />
+                  </template>
+                  <NuxtLink to="/settings/profile">
+                    账户设置
+                  </NuxtLink>
+                </a-menu-item>
+                <a-menu-item @click="handleLogout">
+                  <template #icon>
+                    <div class="i-carbon-logout" />
                   </template>
                   退出
                 </a-menu-item>

@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
+import { message } from 'ant-design-vue'
 import { getToken } from './auth'
 
 const instance = axios.create({
@@ -43,13 +44,13 @@ instance.interceptors.response.use(
     return resp
   },
   (error) => {
-    // response error
-    console.error(error) // for debug
-    // notificationService.show({
-    //   status: "danger",
-    //   title: error.code,
-    //   description: error.message,
-    // });
+    console.error(error)
+
+    let msg
+    if (error instanceof AxiosError)
+      msg = ((error as AxiosError).response?.data as any).message
+
+    message.error(msg || error.message)
     throw error
   },
 )
