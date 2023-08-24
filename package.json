@@ -13,6 +13,7 @@
     "start:generate": "npx serve .output/public"
   },
   "devDependencies": {
+    "@ant-design-vue/nuxt": "^1.1.1",
     "@antfu/eslint-config": "^0.40.0",
     "@iconify-json/carbon": "^1.1.19",
     "@iconify-json/twemoji": "^1.1.12",
@@ -23,6 +24,7 @@
     "@unocss/nuxt": "^0.54.1",
     "@vite-pwa/nuxt": "^0.1.0",
     "@vueuse/nuxt": "^10.3.0",
+    "ant-design-vue": "^4.0.1",
     "consola": "^3.2.3",
     "eslint": "^8.46.0",
     "nuxt": "^3.6.5",
