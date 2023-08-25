@@ -29,8 +29,6 @@ export default defineComponent({
             return
           loading.value = true
           accountLogin(form.username, form.password).then((accessToken) => {
-            console.log(accessToken)
-
             setToken(accessToken)
             userStore.init()
             notification.success({

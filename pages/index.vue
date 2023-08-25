@@ -7,6 +7,7 @@ const params = reactive<IArticlePageParams>({
   pageNo: 1,
   pageSize: 10,
 })
+
 const { data, error, mutate } = useSWRV('queryArticlePage', () => queryArticlePage(params))
 
 const loading = computed(() => !data.value?.rows)

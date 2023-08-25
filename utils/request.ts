@@ -2,13 +2,10 @@ import axios, { AxiosError } from 'axios'
 import { message } from 'ant-design-vue'
 import { getToken } from './auth'
 
+export const baseURL = 'https://worker.viewcode.online/api'
 const instance = axios.create({
-  baseURL: 'https://worker.viewcode.online/api',
+  baseURL,
   // timeout: 5000
-  headers: {
-    'Content-Type': 'application/json;charset=utf-8',
-    // 'Authorization': localStorage.getItem("admin-token") || "",
-  },
   withCredentials: false,
 })
 
