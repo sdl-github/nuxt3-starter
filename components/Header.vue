@@ -20,7 +20,7 @@ function handleLogout() {
     <div class="m-auto h-[100%] max-w-[980px] flex items-center justify-between">
       <div class="gradient-text cursor-pointer text-xl font-bold">
         <NuxtLink to="/">
-          Cloud Logo
+          Cloud Note
         </NuxtLink>
       </div>
       <div class="flex cursor-pointer items-center">
@@ -30,9 +30,6 @@ function handleLogout() {
               <a-avatar :src="user?.avatar">
                 {{ user?.nickname }}
               </a-avatar>
-              <span class="ml-2 text-sm">
-                {{ user?.nickname }}
-              </span>
             </div>
             <template #overlay>
               <a-menu>
@@ -53,6 +50,9 @@ function handleLogout() {
               </a-menu>
             </template>
           </a-dropdown>
+          <span class="ml-2 text-sm">
+            <a-button type="primary">新建</a-button>
+          </span>
         </template>
         <template v-else>
           <LoginModal />
