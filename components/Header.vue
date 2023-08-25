@@ -4,6 +4,7 @@ import LoginModal, { useModal } from './LoginModal.vue'
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
 const router = useRouter()
+
 const model = useModal()
 
 function handleOpenLogin() {
@@ -50,13 +51,32 @@ function handleLogout() {
               </a-menu>
             </template>
           </a-dropdown>
-          <span class="ml-2 text-sm">
-            <a-button type="primary">新建</a-button>
-          </span>
+          <a-dropdown>
+            <span class="ml-4 text-sm">
+              <a-button type="primary">新建</a-button>
+            </span>
+            <template #overlay>
+              <a-menu>
+                <a-menu-item>
+                  <template #icon>
+                    <div class="i-carbon-document" />
+                  </template>
+                  <NuxtLink to="/article/edit">
+                    文章
+                  </NuxtLink>
+                </a-menu-item>
+                <a-menu-item>
+                  <template #icon>
+                    <div class="i-carbon-carbon" />
+                  </template>
+                  碎片
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
         </template>
         <template v-else>
           <LoginModal />
-
           <a-button class="ml-4" @click="handleOpenLogin">
             登录
           </a-button>
