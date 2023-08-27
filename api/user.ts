@@ -30,3 +30,9 @@ export function updateUserProfile(data: IUser) {
     data,
   })
 }
+
+export function queryUserInfoByUserId(userId: string): Promise<IUser> {
+  return request({
+    url: `/user/${userId}`,
+  })
+}

@@ -1,20 +1,19 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'empty',
+})
 </script>
 
 <template>
-  <div>
-    <a-card class="h-80vh w-full">
-      <MdEditor />
-    </a-card>
+  <div class="h-[100vh]">
+    <div class="h-[64px] flex items-center px-6">
+      <a-input placeholder="请输入标题" class="h-64px text-[1.5em] font-bold" :bordered="false" />
+      <div>
+        <a-button type="primary">
+          发布
+        </a-button>
+      </div>
+    </div>
+    <MdEditor class="h-[calc(100vh-64px)]" />
   </div>
 </template>
-
-<style lang="scss" scoped>
-:deep(.ant-card-body) {
-  height: 100%;
-  padding: 0px;
-}
-:deep(.bytemd) {
-  height: 100%;
-}
-</style>

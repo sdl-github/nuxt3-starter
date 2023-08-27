@@ -3,7 +3,7 @@ import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface'
 import AvatarCropperModal, { useModal } from '@/components/AvatarCropperModal.vue'
 import type { IUser } from '@/api/user'
 import { updateUserProfile } from '@/api/user'
-import { uploadFileToKv } from '@/api/file'
+import { uploadFileToS3 } from '@/api/file'
 
 const activeKey = ref('profile')
 const userStore = useUserStore()
@@ -45,7 +45,7 @@ function handleOpenAvatarCropper({ file }: UploadRequestOption) {
 async function handleUploadAvatar({ blob }: { blob: Blob }) {
   const loading = message.loading('加载中', 0)
   try {
-    const avatar = await uploadFileToKv(blob)
+    const avatar = await uploadFileToS3(blob)
     await updateUserProfile({ avatar })
     userStore.init()
     loading()

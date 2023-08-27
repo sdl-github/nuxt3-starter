@@ -12,7 +12,7 @@ function handleChange(value: string) {
 </script>
 
 <template>
-  <div>
+  <div class="">
     <Editor
       class="h-full"
       :locale="zhHans"
@@ -22,3 +22,13 @@ function handleChange(value: string) {
     />
   </div>
 </template>
+
+<style lang="scss" scoped>
+:deep(.ant-card-body) {
+  height: 100%;
+  padding: 0px !important;
+}
+:deep(.bytemd) {
+  height: 100%;
+}
+</style>

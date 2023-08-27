@@ -27,11 +27,9 @@ function handleLogout() {
       <div class="flex cursor-pointer items-center">
         <template v-if="user?.id">
           <a-dropdown>
-            <div>
-              <a-avatar :src="user?.avatar">
-                {{ user?.nickname }}
-              </a-avatar>
-            </div>
+            <a-avatar :size="32" :src="user?.avatar">
+              {{ user?.nickname }}
+            </a-avatar>
             <template #overlay>
               <a-menu>
                 <a-menu-item>

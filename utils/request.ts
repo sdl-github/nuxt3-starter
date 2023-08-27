@@ -3,6 +3,7 @@ import { message } from 'ant-design-vue'
 import { getToken } from './auth'
 
 export const baseURL = 'https://worker.viewcode.online/api'
+
 const instance = axios.create({
   baseURL,
   // timeout: 5000

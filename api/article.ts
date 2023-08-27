@@ -11,6 +11,9 @@ export interface IPage<O> {
 export interface IArticlePageParams {
   pageNo: number
   pageSize: number
+  userId?: string
+  searchKeyWord?: string
+  type?: string
 }
 
 export interface IArticle {

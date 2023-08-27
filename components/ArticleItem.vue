@@ -28,8 +28,10 @@ function formatTimeAgo(data: string) {
         <a-avatar size="small" :src="article.user?.avatar">
           {{ article.user?.nickname }}
         </a-avatar>
-        <div class="ml-1 cursor-pointer color-[#515767]">
-          {{ article.user?.nickname }}
+        <div class="ml-1 cursor-pointer color-[#515767] hover:color-[#1677ff]">
+          <NuxtLink :to="`/user/${article.user.id}`">
+            {{ article.user?.nickname }}
+          </NuxtLink>
         </div>
         <div class="ml-2 color-[#8a919f]">
           {{ article.created_at }}

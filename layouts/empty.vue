@@ -2,12 +2,7 @@
 </script>
 
 <template>
-  <a-layout>
-    <Header />
-    <main class="min-h-[calc(100vh-64px)]">
-      <slot />
-    </main>
-  </a-layout>
+  <slot />
 </template>
 
 <style>
