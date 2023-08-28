@@ -9,6 +9,8 @@ const content = ref('')
 function handleChange(value: string) {
   content.value = value
 }
+
+defineExpose({ content })
 </script>
 
 <template>

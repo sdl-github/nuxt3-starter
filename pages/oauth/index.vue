@@ -4,6 +4,7 @@ const router = useRouter()
 const token = route.query.accessToken
 if (token) {
   setToken(token as string)
+  message.success('登录成功')
   router.push('/')
 }
 </script>

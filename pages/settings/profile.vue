@@ -37,7 +37,6 @@ async function onFinish() {
 }
 
 function handleOpenAvatarCropper({ file }: UploadRequestOption) {
-  // const url = 'https://images.unsplash.com/photo-1516007445015-fc20d86f8468?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'
   const url = URL.createObjectURL(file as File)
   avatarModal.start(url)
 }

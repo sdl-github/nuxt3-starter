@@ -35,6 +35,14 @@ function handleLogout() {
               <a-menu>
                 <a-menu-item>
                   <template #icon>
+                    <div class="i-carbon-user-avatar" />
+                  </template>
+                  <NuxtLink :to="`/user/${user.id}`">
+                    个人中心
+                  </NuxtLink>
+                </a-menu-item>
+                <a-menu-item>
+                  <template #icon>
                     <div class="i-carbon-settings" />
                   </template>
                   <NuxtLink to="/settings/profile">
