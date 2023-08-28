@@ -13,6 +13,7 @@ function handleOpenLogin() {
 
 function handleLogout() {
   userStore.logout()
+  message.success('退出成功')
 }
 </script>
 

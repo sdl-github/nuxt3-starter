@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { FormInstance } from 'ant-design-vue'
-import { accountLogin } from '@/api/user'
+import { accountLogin, oauthLogin } from '@/api/user'
 
 const open = ref(false)
 export default defineComponent({
@@ -44,8 +44,8 @@ export default defineComponent({
 
     async function handleOauthLogin() {
       oauthLoading.value = true
-      // const res = await queryOauthUrl('github')
-      // window.location.href = res.data
+      const location = await oauthLogin('github')
+      window.location.href = location
     }
     return {
       rules,
@@ -74,7 +74,7 @@ export function useModal() {
 
 <template>
   <a-modal :footer="null" :open="open" :mask="false" width="400px" @cancel="setOpen(false)">
-    <div class="flex flex-1 items-center justify-center p-[2px]">
+    <div class="flex items-center justify-center p-[2px]">
       <div class="w-[100%] rounded bg-white p-2">
         <div class="text-bold h-[50px] text-xl">
           登录
@@ -93,17 +93,14 @@ export function useModal() {
             <a-button type="primary" class="w-full" :loading="loading" @click.stop="handleLogin">
               登录
             </a-button>
-            <a-button
-              class="mt-2 w-full flex items-center justify-center" :loading="oauthLoading"
-              @click.stop="handleOauthLogin"
-            >
-              <div class="i-ri-github-fill text-20px" />
-              <div class="ml-2">
-                Github 登录
-              </div>
-            </a-button>
+            <div class="mt-18px flex items-center justify-center text-[1.5em]">
+              <div class="i-carbon-logo-github cursor-pointer" @click="handleOauthLogin" />
+            </div>
           </a-form-item>
         </a-form>
+        <div class="text-center">
+          注册登录即表示同意 <span class="color-#1677ff">用户协议</span> 和 <span class="color-#1677ff">隐私政策</span>
+        </div>
       </div>
     </div>
   </a-modal>

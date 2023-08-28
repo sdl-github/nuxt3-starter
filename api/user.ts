@@ -9,6 +9,12 @@ export function accountLogin(username: string, password: string): Promise<string
   })
 }
 
+export function oauthLogin(type: string): Promise<string> {
+  return request({
+    url: `/user/oauth/${type}`,
+  })
+}
+
 export interface IUser {
   id?: string
   username?: string
