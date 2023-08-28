@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -34,9 +34,6 @@ devDependencies:
   '@antfu/eslint-config':
     specifier: ^0.40.0
     version: 0.40.0(eslint@8.46.0)(typescript@5.1.6)
-  '@emoji-mart/data':
-    specifier: ^1.1.2
-    version: 1.1.2
   '@iconify-json/carbon':
     specifier: ^1.1.19
     version: 1.1.19
@@ -79,9 +76,9 @@ devDependencies:
   cross-env:
     specifier: ^7.0.3
     version: 7.0.3
-  emoji-mart:
-    specifier: ^5.5.2
-    version: 5.5.2
+  emoji-mart-vue-fast:
+    specifier: ^15.0.0
+    version: 15.0.0(vue@3.3.4)
   eslint:
     specifier: ^8.46.0
     version: 8.46.0
@@ -1555,10 +1552,6 @@ packages:
   /@ctrl/tinycolor@3.6.1:
     resolution: {integrity: sha512-SITSV6aIXsuVNV3f3O0f2n/cgyEDWoSqtZMYiAmcsYHydcKrOz3gUxB/iXd/Qf08+IZX4KpgNbvUdMBmWz+kcA==}
     engines: {node: '>=10'}
-    dev: true
-
-  /@emoji-mart/data@1.1.2:
-    resolution: {integrity: sha512-1HP8BxD2azjqWJvxIaWAMyTySeZY0Osr83ukYjltPVkNXeJvTz7yDrPLBtnrD5uqJ3tg4CcLuuBW09wahqL/fg==}
     dev: true
 
   /@emotion/hash@0.9.1:
@@ -5207,8 +5200,14 @@ packages:
     resolution: {integrity: sha512-h+UqpfmEr1Qkk0zp7ej/jid7CXoq4m4QzW6wNTb0ELJ/BZCpA4wgUylBIMGCe621tnr4l5VmoHjdoSx2lbnNJA==}
     dev: true
 
-  /emoji-mart@5.5.2:
-    resolution: {integrity: sha512-Sqc/nso4cjxhOwWJsp9xkVm8OF5c+mJLZJFoFfzRuKO+yWiN7K8c96xmtughYb0d/fZ8UC6cLIQ/p4BR6Pv3/A==}
+  /emoji-mart-vue-fast@15.0.0(vue@3.3.4):
+    resolution: {integrity: sha512-3BzkDrs60JyT00dLHMAxWKbpFhbyaW9C+q1AjtqGovSxTu8TC2mYAGsvTmXNYKm39IRRAS56v92TihOcB98IsQ==}
+    peerDependencies:
+      vue: '>2.0.0'
+    dependencies:
+      '@babel/runtime': 7.22.6
+      core-js: 3.32.1
+      vue: 3.3.4
     dev: true
 
   /emoji-regex@8.0.0:

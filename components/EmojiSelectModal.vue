@@ -1,45 +1,31 @@
 <script setup lang="ts">
 import { Tippy } from 'vue-tippy'
+import { EmojiIndex, Picker } from 'emoji-mart-vue-fast/src'
+import data from 'emoji-mart-vue-fast/data/all.json'
+import 'emoji-mart-vue-fast/css/emoji-mart.css'
 
-import data from '@emoji-mart/data'
-import { Picker } from 'emoji-mart'
-import i18n from '@emoji-mart/data/i18n/zh.json'
+const emojiIndex = new EmojiIndex(data)
 
-let picker: Picker | null = null
+const emoji = ref<string>('')
+console.log(emojiIndex)
 
-const emojiPickerRef = ref({} as HTMLElement)
-const show = ref(false)
-onMounted(() => {
-  console.log('onMounted')
-  const pickerOptions = {
-    onEmojiSelect,
-    data,
-    i18n,
-    parent: emojiPickerRef.value,
-  }
-  picker = new Picker(pickerOptions)
-})
-
-function onEmojiSelect(e: any) {
-  console.log(e)
-}
-function handleOpenEmojiPicker() {
-}
-function cancel() {
-}
-function handleClickOutSide() {
-  show.value = false
-}
-function onMount() {
-  console.log('onMount')
+function handleSelectEmoji(data: { native: string }) {
+  emoji.value = data.native
 }
 </script>
 
 <template>
-  <Tippy :interactive="true" placement="bottom" trigger="click" :hide-on-click="false" @on-show="onMount" @click-outside="handleClickOutSide">
-    <a-button>emoji!</a-button>
+  <Tippy :interactive="true" placement="bottom" trigger="click">
+    <div>
+      emoji {{ emoji }}
+    </div>
     <template #content>
-      <div id="emoji-picker" ref="emojiPickerRef" />
+      <Picker
+        :data="emojiIndex"
+        title="Pick your emoji…"
+        emoji="point_up"
+        @select="handleSelectEmoji"
+      />
     </template>
   </Tippy>
 </template>
