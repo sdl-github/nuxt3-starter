@@ -76,7 +76,9 @@ function handleLogout() {
                   <template #icon>
                     <div class="i-carbon-carbon" />
                   </template>
-                  碎片
+                  <NuxtLink to="/scraps/new">
+                    思绪碎片
+                  </NuxtLink>
                 </a-menu-item>
               </a-menu>
             </template>

@@ -43,10 +43,12 @@ export default defineComponent({
     }
 
     async function handleOauthLogin() {
+      const loading = message.loading('加载中', 0)
       oauthLoading.value = true
       const location = await oauthLogin('github')
       window.location.href = location
     }
+
     return {
       rules,
       loading,

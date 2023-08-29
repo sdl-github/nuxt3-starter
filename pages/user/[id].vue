@@ -19,7 +19,7 @@ const params = reactive<IArticlePageParams>({
   type: type.value,
 })
 
-const { data: articleList, mutate: mutateQueryArticlePage } = useSWRV('queryArticlePage', () => queryArticlePage(params))
+const { data: articleList, mutate: mutateQueryArticlePage } = useSWRV(`queryArticlePage/${userId}`, () => queryArticlePage(params))
 
 const isAuthor = computed(() => userId.value === userStore.user?.id)
 </script>
