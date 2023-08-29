@@ -7,9 +7,6 @@ import { queryUserInfoByUserId } from '@/api/user'
 const route = useRoute()
 const userStore = useUserStore()
 const userId = computed(() => route.params.id as string)
-
-const { data: user, error, mutate } = useSWRV(`queryUserInfoByUserId/${userId}`, () => queryUserInfoByUserId(userId.value))
-
 const type = ref('article')
 
 const params = reactive<IArticlePageParams>({
@@ -19,9 +16,28 @@ const params = reactive<IArticlePageParams>({
   type: type.value,
 })
 
+const { data: user, error, mutate } = useSWRV(`queryUserInfoByUserId/${userId}/page/${params.pageNo}`, () => queryUserInfoByUserId(userId.value))
+
 const { data: articleList, mutate: mutateQueryArticlePage } = useSWRV(`queryArticlePage/${userId}`, () => queryArticlePage(params))
 
 const isAuthor = computed(() => userId.value === userStore.user?.id)
+
+const spinning = ref(false)
+
+async function handleUpdateCurrent() {
+  spinning.value = true
+  backToTop()
+  await mutateQueryArticlePage()
+  spinning.value = false
+}
+
+function backToTop() {
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+  if (scrollTop > 0) {
+    window.requestAnimationFrame(backToTop)
+    window.scrollTo(0, scrollTop - scrollTop / 8)
+  }
+}
 </script>
 
 <template>
@@ -62,7 +78,10 @@ const isAuthor = computed(() => userId.value === userStore.user?.id)
       <a-skeleton active />
     </template>
     <template v-else>
-      <ArticleItem v-for="article in articleList?.rows" :key="article.id" :article="article" :is-author="isAuthor" @refresh="mutateQueryArticlePage" />
+      <a-spin tip="Loading..." :spinning="spinning">
+        <ArticleItem v-for="article in articleList?.rows" :key="article.id" :is-author="isAuthor" :article="article" />
+        <a-pagination v-model:current="params.pageNo" size="default" :total="articleList?.total" show-less-items @update:current="handleUpdateCurrent" @refresh="mutateQueryArticlePage" />
+      </a-spin>
     </template>
   </div>
 </template>

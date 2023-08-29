@@ -18,13 +18,19 @@ const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
       <a-skeleton active class="p-4" />
     </template>
     <template v-else>
-      <h1 class="mb-2 text-[600px] text-1.5rem color-#252933">
-        {{ data.title }}
-        <nuxt-link v-if="isAuthor" :to="`/article/edit?id=${data.id}`">
-          <span class="ml-2 text-12px color-#1677ff">编辑</span>
-        </nuxt-link>
-      </h1>
-      <div class="my-5 h-35px flex">
+      <div class="mt-5 w-[100%] flex flex-col items-center">
+        <div v-if="data.icon" class="h-[92px] w-[92px] flex items-center justify-center rounded bg-[#f1f5f9]">
+          <span class="text-[3em]">{{ data.icon }}</span>
+        </div>
+        <h1 class="mb-2 text-[600px] text-1.5rem color-#252933">
+          {{ data.title }}
+          <nuxt-link v-if="isAuthor" :to="`/article/edit?id=${data.id}`">
+            <span class="ml-2 text-12px color-#1677ff">编辑</span>
+          </nuxt-link>
+        </h1>
+      </div>
+
+      <div class="my-5 mt-15 h-35px flex">
         <div class="h-full w-50px">
           <a-avatar :size="35" :src="data.user?.avatar">
             {{ data.user?.nickname || data.user?.username }}
@@ -41,6 +47,7 @@ const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
           </div>
         </div>
       </div>
+
       <div v-html="data.content_html" />
     </template>
   </div>

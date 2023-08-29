@@ -7,6 +7,7 @@ definePageMeta({
 })
 
 const route = useRoute()
+const router = useRouter()
 const articleId = computed(() => route.query.id as string)
 const loading = ref(false)
 const form = ref({
@@ -39,18 +40,17 @@ onMounted(async () => {
 })
 
 async function handleOpenArticleModal() {
-  await handleSaveArticle()
   setArticlePostModal(true)
 }
 
 async function handleSaveArticle() {
   if (!form.value.title) {
     message.info('请输入标题')
-    return
+    return false
   }
   if (!form.value.content_markdown) {
     message.info('请输入内容')
-    return
+    return false
   }
 
   const html = document.querySelector('.markdown-body')
@@ -79,6 +79,13 @@ async function handleSaveArticle() {
     return false
   }
 }
+
+async function handlePublish(data: { icon: string; tagNames: string[] }) {
+  const { icon } = data
+  form.value.icon = icon
+  await handleSaveArticle()
+  router.push(`/article/${form.value.id}`)
+}
 </script>
 
 <template>
@@ -93,10 +100,10 @@ async function handleSaveArticle() {
           <a-button type="primary" class="flex items-center" @click="handleOpenArticleModal">
             发布
           </a-button>
-          <a-button type="primary" class="ml-2 flex items-center" @click="handleSaveArticle">
+          <!-- <a-button type="primary" class="ml-2 flex items-center" @click="handleSaveArticle">
             保存
-          </a-button>
-          <ArticlePostModal />
+          </a-button> -->
+          <ArticlePostModal @ok="handlePublish" />
         </div>
       </div>
       <MdEditor ref="mdEditorRef" v-model:content="form.content_markdown" class="h-[calc(100vh-64px)]" />

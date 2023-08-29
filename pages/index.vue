@@ -8,9 +8,25 @@ const params = reactive<IArticlePageParams>({
   pageSize: 10,
 })
 
-const { data, error, mutate } = useSWRV('queryArticlePage', () => queryArticlePage(params))
+const { data, error, mutate } = useSWRV(`queryArticlePage/page/${params.pageNo}`, () => queryArticlePage(params))
 
 const loading = computed(() => !data.value?.rows)
+const spinning = ref(false)
+
+async function handleUpdateCurrent() {
+  spinning.value = true
+  backToTop()
+  await mutate()
+  spinning.value = false
+}
+
+function backToTop() {
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+  if (scrollTop > 0) {
+    window.requestAnimationFrame(backToTop)
+    window.scrollTo(0, scrollTop - scrollTop / 8)
+  }
+}
 </script>
 
 <template>
@@ -21,7 +37,10 @@ const loading = computed(() => !data.value?.rows)
           <a-skeleton active />
         </template>
         <template v-else>
-          <ArticleItem v-for="article in data?.rows" :key="article.id" :article="article" />
+          <a-spin tip="Loading..." :spinning="spinning">
+            <ArticleItem v-for="article in data?.rows" :key="article.id" :article="article" />
+            <a-pagination v-model:current="params.pageNo" size="default" :total="data?.total" show-less-items @update:current="handleUpdateCurrent" />
+          </a-spin>
         </template>
       </div>
       <div class="w-[250px]">

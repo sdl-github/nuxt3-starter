@@ -42,7 +42,7 @@ async function handleDel(id: string) {
 <template>
   <NuxtLink :to="`/article/${article.id}`">
     <div class="group m-auto mb-4 w-[100%] flex cursor-pointer justify-between rounded bg-#fff px-4 py-3">
-      <div>
+      <div class="mr-2">
         <div class="cursor-pointer text-[16px] font-bold leading-6">
           {{ article.title }}
         </div>
