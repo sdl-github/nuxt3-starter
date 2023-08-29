@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import useSWRV from 'swrv'
-import type { IArticlePageParams } from 'api/article'
+import type { IArticlePageParams } from '@/api/article'
 import { queryArticlePage } from '@/api/article'
 import { queryUserInfoByUserId } from '@/api/user'
 
 const route = useRoute()
+const userStore = useUserStore()
 const userId = computed(() => route.params.id as string)
 
-const { data: user, error, mutate } = useSWRV('queryUserInfoByUserId', () => queryUserInfoByUserId(userId.value))
+const { data: user, error, mutate } = useSWRV(`queryUserInfoByUserId/${userId}`, () => queryUserInfoByUserId(userId.value))
 
 const type = ref('article')
 
@@ -19,6 +20,8 @@ const params = reactive<IArticlePageParams>({
 })
 
 const { data: articleList, mutate: mutateQueryArticlePage } = useSWRV('queryArticlePage', () => queryArticlePage(params))
+
+const isAuthor = computed(() => userId.value === userStore.user?.id)
 </script>
 
 <template>
@@ -59,7 +62,7 @@ const { data: articleList, mutate: mutateQueryArticlePage } = useSWRV('queryArti
       <a-skeleton active />
     </template>
     <template v-else>
-      <ArticleItem v-for="article in articleList?.rows" :key="article.id" :article="article" />
+      <ArticleItem v-for="article in articleList?.rows" :key="article.id" :article="article" :is-author="isAuthor" @refresh="mutateQueryArticlePage" />
     </template>
   </div>
 </template>

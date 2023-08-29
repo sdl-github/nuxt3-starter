@@ -3,14 +3,20 @@ import { Editor } from '@bytemd/vue-next'
 import zhHans from 'bytemd/locales/zh_Hans.json'
 import 'bytemd/dist/index.css'
 import { plugins } from './plugins'
+import '@/components/MdEditor/theme/smart-blue.css'
 
-const content = ref('')
+const props = defineProps({
+  content: {
+    type: String,
+    default: '',
+  },
+})
+
+const emits = defineEmits(['update:content'])
 
 function handleChange(value: string) {
-  content.value = value
+  emits('update:content', value)
 }
-
-defineExpose({ content })
 </script>
 
 <template>

@@ -22,10 +22,13 @@ export interface IArticle {
   desc: string
   icon: string
   userId: string
+  type: string
   like: number
   published_at: string
   created_at: string
   user: IUser
+  content_markdown: string
+  content_html: string
 }
 
 export function queryArticlePage(params: IArticlePageParams): Promise<IPage<IArticle>> {
@@ -33,5 +36,44 @@ export function queryArticlePage(params: IArticlePageParams): Promise<IPage<IArt
     url: '/post',
     method: 'GET',
     params,
+  })
+}
+
+export interface ISaveArticle {
+  id?: string
+  title: string
+  desc?: string
+  icon?: string
+  type: string
+  content_html: string
+  content_markdown: string
+}
+
+export function saveArticle(data: ISaveArticle): Promise<{ id: string }> {
+  return request({
+    url: '/post',
+    method: 'POST',
+    data,
+  })
+}
+
+export function updateArticle(data: ISaveArticle): Promise<{ id: string }> {
+  return request({
+    url: '/post',
+    method: 'PUT',
+    data,
+  })
+}
+
+export function queryArticleDetail(id: string): Promise<IArticle> {
+  return request({
+    url: `/post/${id}`,
+  })
+}
+
+export function deleteArticle(id: string) {
+  return request({
+    url: `/post/${id}`,
+    method: 'DELETE',
   })
 }

@@ -1,60 +1,105 @@
 <script setup lang="ts">
 import ArticlePostModal, { useModal } from '@/components/ArticlePostModal.vue'
+import { queryArticleDetail, saveArticle, updateArticle } from '@/api/article'
 
 definePageMeta({
   layout: 'empty',
+})
+
+const route = useRoute()
+const articleId = computed(() => route.query.id as string)
+const loading = ref(false)
+const form = ref({
+  id: '',
+  title: '',
+  type: 'article',
+  icon: '',
+  desc: '',
+  content_markdown: '',
+  content_html: '',
 })
 
 const mdEditorRef = ref(null as any)
 
 const { setOpen: setArticlePostModal } = useModal()
 
-const title = ref('')
+onMounted(async () => {
+  if (articleId.value) {
+    loading.value = true
+    const { id, title, type, icon, desc, content_markdown } = await queryArticleDetail(articleId.value)
+    form.value.id = id
+    form.value.title = title
+    form.value.type = type
+    form.value.icon = icon
+    form.value.desc = desc
+    form.value.content_markdown = content_markdown
 
-function handleOpenArticleModal() {
-  const content = mdEditorRef.value.content
-  // if (!title.value) {
-  //   message.info('请输入标题')
-  //   return
-  // }
-  // if (!content) {
-  //   message.info('请输入内容')
-  //   return
-  // }
+    loading.value = false
+  }
+})
+
+async function handleOpenArticleModal() {
+  await handleSaveArticle()
   setArticlePostModal(true)
 }
 
-function handleSaveOrPub() {
-  const title = ref('')
-  const content = mdEditorRef.value.content
-  if (!title.value) {
+async function handleSaveArticle() {
+  if (!form.value.title) {
     message.info('请输入标题')
     return
   }
-  if (!content) {
+  if (!form.value.content_markdown) {
     message.info('请输入内容')
     return
   }
-  const data = {
-    title: title.value,
-    icon: '❤️',
-    content,
-    type: 'article',
+
+  const html = document.querySelector('.markdown-body')
+  const textContent = html?.textContent || ''
+  const desc = textContent?.length >= 100 ? textContent?.substring(0, 100) : textContent?.substring(0, textContent.length)
+  form.value.content_html = html?.outerHTML as string
+  form.value.desc = desc
+
+  const loading = message.loading('保存中', 0)
+
+  try {
+    if (form.value.id) {
+      await updateArticle(form.value)
+    }
+    else {
+      const { id } = await saveArticle(form.value)
+      form.value.id = id
+    }
+
+    loading()
+    message.success('保存成功')
+    return true
+  }
+  catch (e) {
+    loading()
+    return false
   }
 }
 </script>
 
 <template>
   <div class="h-[100vh]">
-    <div class="h-[64px] flex items-center px-6">
-      <a-input v-model:value="title" placeholder="请输入标题" class="h-64px text-[1.5em] font-bold" :bordered="false" />
-      <div class="flex">
-        <a-button type="primary" class="flex items-center" @click="handleOpenArticleModal">
-          发布
-        </a-button>
-        <ArticlePostModal />
+    <template v-if="loading">
+      <a-skeleton active class="p-4" />
+    </template>
+    <template v-else>
+      <div class="h-[64px] flex items-center px-6">
+        <a-input v-model:value="form.title" placeholder="请输入标题" class="h-64px text-[1.5em] font-bold" :bordered="false" />
+        <div class="flex">
+          <a-button type="primary" class="flex items-center" @click="handleOpenArticleModal">
+            发布
+          </a-button>
+          <a-button type="primary" class="ml-2 flex items-center" @click="handleSaveArticle">
+            保存
+          </a-button>
+          <ArticlePostModal />
+        </div>
       </div>
-    </div>
-    <MdEditor ref="mdEditorRef" class="h-[calc(100vh-64px)]" />
+      <MdEditor ref="mdEditorRef" v-model:content="form.content_markdown" class="h-[calc(100vh-64px)]" />
+    </template>
   </div>
 </template>
