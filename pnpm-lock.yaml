@@ -17,9 +17,6 @@ dependencies:
   '@bytemd/plugin-gfm':
     specifier: ^1.21.0
     version: 1.21.0(bytemd@1.21.0)
-  '@bytemd/plugin-highlight':
-    specifier: ^1.21.0
-    version: 1.21.0(bytemd@1.21.0)
   '@bytemd/vue-next':
     specifier: ^1.21.0
     version: 1.21.0(vue@3.3.4)
@@ -100,6 +97,9 @@ devDependencies:
   sass:
     specifier: ^1.66.1
     version: 1.66.1
+  shiki-es:
+    specifier: ^0.14.0
+    version: 0.14.0
   typescript:
     specifier: ^5.1.6
     version: 5.1.6
@@ -1521,15 +1521,6 @@ packages:
       remark-gfm: 3.0.1
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@bytemd/plugin-highlight@1.21.0(bytemd@1.21.0):
-    resolution: {integrity: sha512-JM9rwzj9pFBXVwxmD9mgGIQPO4cTFVHvDhffS93IMK+tqvo0Vw76zDIqJWT3f421j8iNxffGsVQQs6389u3Z9A==}
-    peerDependencies:
-      bytemd: ^1.5.0
-    dependencies:
-      bytemd: 1.21.0
-      highlight.js: 11.8.0
     dev: false
 
   /@bytemd/vue-next@1.21.0(vue@3.3.4):
@@ -6556,11 +6547,6 @@ packages:
     hasBin: true
     dev: true
 
-  /highlight.js@11.8.0:
-    resolution: {integrity: sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==}
-    engines: {node: '>=12.0.0'}
-    dev: false
-
   /hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
     dev: true
@@ -10018,6 +10004,10 @@ packages:
 
   /shell-quote@1.8.1:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
+    dev: true
+
+  /shiki-es@0.14.0:
+    resolution: {integrity: sha512-e+/aueHx0YeIEut6RXC6K8gSf0PykwZiHD7q7AHtpTW8Kd8TpFUIWqTwhAnrGjOyOMyrwv+syr5WPagMpDpVYQ==}
     dev: true
 
   /side-channel@1.0.4:

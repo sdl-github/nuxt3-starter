@@ -38,6 +38,7 @@
     "nuxt": "^3.6.5",
     "pinia": "^2.1.6",
     "sass": "^1.66.1",
+    "shiki-es": "^0.14.0",
     "typescript": "^5.1.6",
     "vue-advanced-cropper": "^2.8.8",
     "vue-tippy": "v6",
@@ -48,7 +49,6 @@
     "@bytemd/plugin-frontmatter": "^1.21.0",
     "@bytemd/plugin-gemoji": "^1.21.0",
     "@bytemd/plugin-gfm": "^1.21.0",
-    "@bytemd/plugin-highlight": "^1.21.0",
     "@bytemd/vue-next": "^1.21.0",
     "swrv": "^1.0.4"
   }
