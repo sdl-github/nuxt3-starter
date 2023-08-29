@@ -2,6 +2,7 @@
 import useSWRV from 'swrv'
 import { queryArticleDetail } from '@/api/article'
 import '@/components/MdEditor/theme/smart-blue.css'
+import 'highlight.js/styles/androidstudio.css'
 
 const route = useRoute()
 const articleId = computed(() => route.params.id as string)
