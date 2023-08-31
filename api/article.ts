@@ -1,12 +1,5 @@
+import type { IPage } from 'api'
 import type { IUser } from './user'
-
-export interface IPage<O> {
-  hasNextPage?: boolean
-  rows: O[]
-  total: number
-  pageNo: number
-  pageSize: number
-}
 
 export interface IArticlePageParams {
   pageNo: number
