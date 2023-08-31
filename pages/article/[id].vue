@@ -10,6 +10,8 @@ const articleId = computed(() => route.params.id as string)
 const { data, error, mutate } = useSWRV(`queryArticleDetail/${articleId.value}`, () => queryArticleDetail(articleId.value))
 
 const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
+
+const timeAgo = computed(() => data.value && useTimeAgo(new Date(data.value.created_at)).value)
 </script>
 
 <template>
@@ -42,7 +44,7 @@ const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
           </div>
           <div class="flex items-center">
             <div class="color-[#8a919f]">
-              {{ data.created_at }}
+              {{ timeAgo }}
             </div>
           </div>
         </div>

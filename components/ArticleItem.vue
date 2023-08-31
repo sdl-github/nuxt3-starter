@@ -2,7 +2,7 @@
 import { type IArticle } from '@/api/article'
 import { deleteArticle } from '@/api/article'
 
-defineProps({
+const props = defineProps({
   article: {
     type: Object as PropType<IArticle>,
     default: () => {},
@@ -12,7 +12,10 @@ defineProps({
     default: () => false,
   },
 })
+
 const emits = defineEmits(['refresh'])
+
+const timeAgo = useTimeAgo(new Date(props.article.created_at))
 
 async function handleDel(id: string) {
   Modal.confirm({
@@ -63,7 +66,7 @@ async function handleDel(id: string) {
             </NuxtLink>
           </div>
           <div class="ml-2 color-[#8a919f]">
-            {{ article.created_at }}
+            {{ timeAgo }}
           </div>
         </div>
       </div>
