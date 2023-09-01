@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import ArticlePostModal, { useModal } from '@/components/ArticlePostModal.vue'
+import ArticlePostModal from '@/components/ArticlePostModal.vue'
+import type { ISaveArticle } from '@/api/article'
 import { queryArticleDetail, saveArticle, updateArticle } from '@/api/article'
 
 definePageMeta({
   layout: 'empty',
 })
 
+const articlePostModalRef = ref<any>()
 const route = useRoute()
 const router = useRouter()
 const articleId = computed(() => route.query.id as string)
 const loading = ref(false)
-const form = ref({
+const form = ref<ISaveArticle>({
   id: '',
   title: '',
   type: 'article',
@@ -18,11 +20,10 @@ const form = ref({
   desc: '',
   content_markdown: '',
   content_html: '',
+  tags: [],
 })
 
 const mdEditorRef = ref(null as any)
-
-const { setOpen: setArticlePostModal } = useModal()
 
 onMounted(async () => {
   if (articleId.value) {
@@ -40,7 +41,16 @@ onMounted(async () => {
 })
 
 async function handleOpenArticleModal() {
-  setArticlePostModal(true)
+  if (!form.value.title) {
+    message.info('请输入标题')
+    return false
+  }
+  if (!form.value.content_markdown) {
+    message.info('请输入内容')
+    return false
+  }
+  const { icon, tags } = form.value
+  articlePostModalRef.value.start({ icon, tags })
 }
 
 async function handleSaveArticle() {
@@ -80,9 +90,10 @@ async function handleSaveArticle() {
   }
 }
 
-async function handlePublish(data: { icon: string; tagNames: string[] }) {
-  const { icon } = data
+async function handlePublish(data: { icon: string; tags: string[] }) {
+  const { icon, tags } = data
   form.value.icon = icon
+  form.value.tags = tags
   await handleSaveArticle()
   router.push(`/article/${form.value.id}`)
 }
@@ -103,7 +114,7 @@ async function handlePublish(data: { icon: string; tagNames: string[] }) {
           <!-- <a-button type="primary" class="ml-2 flex items-center" @click="handleSaveArticle">
             保存
           </a-button> -->
-          <ArticlePostModal @ok="handlePublish" />
+          <ArticlePostModal ref="articlePostModalRef" @ok="handlePublish" />
         </div>
       </div>
       <MdEditor ref="mdEditorRef" v-model:content="form.content_markdown" class="h-[calc(100vh-64px)]" />

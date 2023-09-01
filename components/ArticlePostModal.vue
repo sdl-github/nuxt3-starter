@@ -1,80 +1,67 @@
-<script lang="ts">
+<script lang="ts" setup>
 import useSWRV from 'swrv'
 import { queryTagPage } from '@/api/tag'
 
+const emits = defineEmits(['ok'])
 const open = ref(false)
-export default defineComponent({
-  emits: ['ok'],
-  setup(props, { emit }) {
-    const formRef = ref()
-    const loading = ref(false)
-    const { setOpen } = useModal()
-    const router = useRouter()
-    const rules = {}
-    const form = ref({
-      tagNames: [],
-      icon: '',
-    })
-
-    const searchTagParams = ref({
-      pageNo: 1,
-      pageSize: 10,
-      searchKeyWord: '',
-    })
-
-    const { data: searchTagData, error, mutate: mutateSearchTag } = useSWRV(() => searchTagParams.value.searchKeyWord && 'queryArticlePage',
-      () => queryTagPage(searchTagParams.value))
-
-    const tagOptions = computed(() => {
-      return searchTagData.value?.rows.map((item) => {
-        const { name: value } = item
-        return { value }
-      })
-    })
-
-    const debounceSearchTag = useDebounceFn(() => {
-      mutateSearchTag()
-    }, 500)
-
-    function ok() {
-      emit('ok', unref(form))
-      setOpen(false)
-    }
-
-    function handleSearch(val: string) {
-      searchTagParams.value.searchKeyWord = val
-      debounceSearchTag()
-    }
-
-    return {
-      setOpen,
-      ok,
-      handleSearch,
-      loading,
-      router,
-      open,
-      formRef,
-      rules,
-      form,
-      tagOptions,
-      searchTagData,
-    }
-  },
+const formRef = ref()
+const loading = ref(false)
+const router = useRouter()
+const rules = {}
+interface IForm { icon: string; tags: string[] }
+const form = ref<IForm>({
+  tags: [],
+  icon: '',
 })
 
-export function useModal() {
-  return {
-    setOpen(show: boolean) {
-      open.value = show
-    },
-  }
+const searchTagParams = ref({
+  pageNo: 1,
+  pageSize: 10,
+  searchKeyWord: '',
+})
+
+const { data: searchTagData, error, mutate: mutateSearchTag } = useSWRV(() => searchTagParams.value.searchKeyWord && 'queryArticlePage',
+  () => queryTagPage(searchTagParams.value))
+
+const tagOptions = computed(() => {
+  return searchTagData.value?.rows.map((item) => {
+    const { name: value } = item
+    return { value }
+  })
+})
+
+const debounceSearchTag = useDebounceFn(() => {
+  mutateSearchTag()
+}, 500)
+
+function ok() {
+  emits('ok', unref(form))
 }
+
+function cancel() {
+  open.value = false
+}
+function handleSearch(val: string) {
+  searchTagParams.value.searchKeyWord = val
+  debounceSearchTag()
+}
+
+function start(source: IForm) {
+  const { icon, tags } = source
+  form.value.icon = icon
+  form.value.tags = tags
+  open.value = true
+}
+
+defineExpose({
+  start,
+})
 </script>
 
 <template>
   <a-modal
     title="文章设置" ok-text="确定" cancel-text="取消" :closable="false" :open="open" :mask-closable="false" :mask="false"
-    width="400px" @cancel="setOpen(false)" @ok="ok"
+    width="400px" @cancel="cancel" @ok="ok"
   >
     <div class="mt-4">
       <a-form ref="formRef" layout="vertical" :model="form" :rules="rules">
@@ -83,7 +70,7 @@ export function useModal() {
         </a-form-item>
         <a-form-item name="username" label="标签">
           <a-select
-            v-model:value="form.tagNames"
+            v-model:value="form.tags"
             mode="tags"
             placeholder="标签"
             allow-clear

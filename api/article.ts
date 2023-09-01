@@ -9,6 +9,12 @@ export interface IArticlePageParams {
   type?: string
 }
 
+export interface ITag {
+  tagId: string
+  tagName: string
+  tagIcon?: string
+}
+
 export interface IArticle {
   id: string
   title: string
@@ -22,6 +28,7 @@ export interface IArticle {
   user: IUser
   content_markdown: string
   content_html: string
+  tags?: ITag[]
 }
 
 export function queryArticlePage(params: IArticlePageParams): Promise<IPage<IArticle>> {
@@ -37,9 +44,10 @@ export interface ISaveArticle {
   title: string
   desc?: string
   icon?: string
-  type: string
-  content_html: string
-  content_markdown: string
+  type?: string
+  content_html?: string
+  content_markdown?: string
+  tags?: string[]
 }
 
 export function saveArticle(data: ISaveArticle): Promise<{ id: string }> {

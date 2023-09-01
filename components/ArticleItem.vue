@@ -56,17 +56,24 @@ async function handleDel(id: string) {
           <div class="flex cursor-pointer items-center color-[rgba(0,0,0,.45)]" />
           <div class="ml-2" />
         </div>
-        <div class="flex items-center text-[12px]">
-          <a-avatar size="small" :src="article.user?.avatar">
-            {{ article.user?.nickname }}
-          </a-avatar>
-          <div class="ml-1 cursor-pointer color-[#515767] hover:color-[#1677ff]">
-            <NuxtLink :to="`/user/${article.user.id}`">
+        <div class="flex items-center">
+          <div class="flex items-center text-[12px]">
+            <a-avatar size="small" :src="article.user?.avatar">
               {{ article.user?.nickname }}
-            </NuxtLink>
+            </a-avatar>
+            <div class="ml-1 cursor-pointer color-[#515767] hover:color-[#1677ff]">
+              <NuxtLink :to="`/user/${article.user.id}`">
+                {{ article.user?.nickname }}
+              </NuxtLink>
+            </div>
+            <div class="ml-2 color-[#8a919f]">
+              {{ timeAgo }}
+            </div>
           </div>
-          <div class="ml-2 color-[#8a919f]">
-            {{ timeAgo }}
+          <div class="ml-4">
+            <a-tag v-for="tag in article.tags" :key="tag.tagId" color="pink">
+              {{ tag.tagName }}
+            </a-tag>
           </div>
         </div>
       </div>
