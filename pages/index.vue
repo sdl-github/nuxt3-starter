@@ -8,7 +8,8 @@ const params = reactive<IArticlePageParams>({
   pageSize: 10,
 })
 
-const { data, error, mutate } = useSWRV(`queryArticlePage/page/${params.pageNo}`, () => queryArticlePage(params))
+const { data, error, mutate } = useSWRV(`queryArticlePage/page/${params.pageNo}`, () => queryArticlePage(params), {
+})
 
 const loading = computed(() => !data.value?.rows)
 const spinning = ref(false)

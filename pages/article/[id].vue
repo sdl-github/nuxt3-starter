@@ -49,7 +49,13 @@ const timeAgo = computed(() => data.value && useTimeAgo(new Date(data.value.crea
           </div>
         </div>
       </div>
-
+      <div class="flex">
+        <template v-for="tag in data.tags" :key="tag.tagId">
+          <div class="hover:bg-[#f1f5f9]-200 ml-2 rounded-full bg-[#f1f5f9] p-0.5 px-4 text-[0.5em] text-[#8a919f] transition-all">
+            {{ tag.tagName }}
+          </div>
+        </template>
+      </div>
       <div v-html="data.content_html" />
     </template>
   </div>

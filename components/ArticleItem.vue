@@ -17,6 +17,7 @@ const emits = defineEmits(['refresh'])
 
 const timeAgo = useTimeAgo(new Date(props.article.created_at))
 
+const toUrl = computed(() => props.article.type === 'article' ? `/article/${props.article.id}` : `/scraps/${props.article.id}`)
 async function handleDel(id: string) {
   Modal.confirm({
     title: '确认删除吗?',
@@ -43,20 +44,21 @@ async function handleDel(id: string) {
 </script>
 
 <template>
-  <NuxtLink :to="`/article/${article.id}`">
+  <NuxtLink :to="toUrl">
     <div class="group m-auto mb-4 w-[100%] flex cursor-pointer justify-between rounded bg-#fff px-4 py-3">
       <div class="mr-2">
-        <div class="cursor-pointer text-[16px] font-bold leading-6">
-          {{ article.title }}
+        <div class="flex items-center">
+          <div class="rounded-full bg-blue-100 p-0.5 px-4 text-sm text-[#1d9bf0] transition-all hover:bg-blue-200">
+            {{ article.type === 'article' ? '文章' : '碎片' }}
+          </div>
+          <div class="mx-2 cursor-pointer text-[16px] font-bold leading-6">
+            {{ article.title }}
+          </div>
         </div>
-        <div class="mt-1 cursor-pointer text-[14px] leading-6">
+        <div class="mt-2 cursor-pointer text-[14px] leading-6">
           {{ article.desc }}
         </div>
-        <div class="mt-1 flex items-center text-[12px]">
-          <div class="flex cursor-pointer items-center color-[rgba(0,0,0,.45)]" />
-          <div class="ml-2" />
-        </div>
-        <div class="flex items-center">
+        <div class="mt-2 flex items-center">
           <div class="flex items-center text-[12px]">
             <a-avatar size="small" :src="article.user?.avatar">
               {{ article.user?.nickname }}
@@ -70,10 +72,12 @@ async function handleDel(id: string) {
               {{ timeAgo }}
             </div>
           </div>
-          <div class="ml-4">
-            <a-tag v-for="tag in article.tags" :key="tag.tagId" color="pink">
-              {{ tag.tagName }}
-            </a-tag>
+          <div class="ml-4 flex">
+            <template v-for="tag in article.tags" :key="tag.tagId">
+              <div class="hover:bg-[#f1f5f9]-200 ml-2 rounded-full bg-[#f1f5f9] p-0.5 px-4 text-[0.5em] text-[#8a919f] transition-all">
+                {{ tag.tagName }}
+              </div>
+            </template>
           </div>
         </div>
       </div>

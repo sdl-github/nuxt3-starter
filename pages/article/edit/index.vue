@@ -28,14 +28,14 @@ const mdEditorRef = ref(null as any)
 onMounted(async () => {
   if (articleId.value) {
     loading.value = true
-    const { id, title, type, icon, desc, content_markdown } = await queryArticleDetail(articleId.value)
+    const { id, title, type, icon, desc, content_markdown, tags } = await queryArticleDetail(articleId.value)
     form.value.id = id
     form.value.title = title
     form.value.type = type
     form.value.icon = icon
     form.value.desc = desc
     form.value.content_markdown = content_markdown
-
+    form.value.tags = tags?.map(tag => tag.tagName)
     loading.value = false
   }
 })

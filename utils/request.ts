@@ -2,8 +2,8 @@ import axios, { AxiosError } from 'axios'
 import { message } from 'ant-design-vue'
 import { getToken } from './auth'
 
-export const baseURL = 'https://worker.viewcode.online/api'
-// export const baseURL = 'http://localhost:8787/api'
+// export const baseURL = 'https://worker.viewcode.online/api'
+export const baseURL = 'http://localhost:8787/api'
 const instance = axios.create({
   baseURL,
   // timeout: 5000

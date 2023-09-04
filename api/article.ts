@@ -1,5 +1,6 @@
 import type { IPage } from 'api'
 import type { IUser } from './user'
+import type { IComment } from './comment'
 
 export interface IArticlePageParams {
   pageNo: number
@@ -29,6 +30,7 @@ export interface IArticle {
   content_markdown: string
   content_html: string
   tags?: ITag[]
+  comments: IComment[]
 }
 
 export function queryArticlePage(params: IArticlePageParams): Promise<IPage<IArticle>> {
