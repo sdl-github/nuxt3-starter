@@ -31,3 +31,11 @@ export function deleteComment(id: string) {
     method: 'DELETE',
   })
 }
+
+export function updateArticle(data: ISaveComment) {
+  return request({
+    url: '/comment',
+    method: 'PUT',
+    data,
+  })
+}
