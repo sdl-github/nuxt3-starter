@@ -24,6 +24,7 @@ export interface IArticle {
   userId: string
   type: string
   like: number
+  comments_count: number
   published_at: string
   created_at: string
   user: IUser

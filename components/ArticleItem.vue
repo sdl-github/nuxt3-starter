@@ -48,8 +48,11 @@ async function handleDel(id: string) {
     <div class="group m-auto mb-4 w-[100%] flex cursor-pointer justify-between rounded bg-#fff px-4 py-3">
       <div class="mr-2">
         <div class="flex items-center">
-          <div :class="`rounded-full  p-0.5 px-4 text-sm  transition-all ${article.type === 'article' ? 'text-white bg-#807aff' : 'text-white bg-#1677ff'}`">
-            {{ article.type === 'article' ? '文章' : '碎片' }}
+          <div :class="`flex items-center rounded-full  p-0.5 px-2 text-sm  transition-all ${article.type === 'article' ? 'text-white bg-#807aff' : 'text-white bg-#1677ff'}`">
+            <div :class="`${article.type === 'article' ? 'i-carbon-document' : 'i-carbon-carbon'} text-[12px]`" />
+            <div class="ml-1 text-[12px]">
+              {{ article.type === 'article' ? '文章' : '碎片' }}
+            </div>
           </div>
           <div class="mx-2 cursor-pointer text-[16px] font-bold leading-6">
             {{ article.title }}
@@ -73,8 +76,14 @@ async function handleDel(id: string) {
             </div>
           </div>
           <div class="ml-4 flex">
+            <div v-if="article.comments_count" class="flex items-center text-[#8a919f]">
+              <div class="i-carbon-chat" />
+              <div class="ml-1 text-[0.8em]">
+                {{ article.comments_count }}
+              </div>
+            </div>
             <template v-for="tag in article.tags" :key="tag.tagId">
-              <div class="hover:bg-[#f1f5f9]-200 ml-2 rounded-full bg-[#f1f5f9] p-0.5 px-4 text-[0.5em] text-[#8a919f] transition-all">
+              <div class="hover:bg-[#f1f5f9]-200 ml-2 rounded-full bg-[#f1f5f9] p-1 px-4 text-[0.8em] text-[#8a919f] transition-all">
                 {{ tag.tagName }}
               </div>
             </template>

@@ -16,8 +16,8 @@ export default defineComponent({
     const formRef = ref<FormInstance>()
     const passwordRef = ref()
     const form = reactive({
-      username: 'admin',
-      password: 'admin',
+      username: '',
+      password: '',
     })
 
     const router = useRouter()
