@@ -48,7 +48,7 @@ async function handleDel(id: string) {
     <div class="group m-auto mb-4 w-[100%] flex cursor-pointer justify-between rounded bg-#fff px-4 py-3">
       <div class="mr-2">
         <div class="flex items-center">
-          <div class="rounded-full bg-blue-100 p-0.5 px-4 text-sm text-[#1d9bf0] transition-all hover:bg-blue-200">
+          <div :class="`rounded-full  p-0.5 px-4 text-sm  transition-all ${article.type === 'article' ? 'text-white bg-#807aff' : 'text-white bg-#1677ff'}`">
             {{ article.type === 'article' ? '文章' : '碎片' }}
           </div>
           <div class="mx-2 cursor-pointer text-[16px] font-bold leading-6">

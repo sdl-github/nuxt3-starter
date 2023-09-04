@@ -4,3 +4,7 @@ a {
 a:hover {
     color: inherit ;
 }
+
+.bytemd {
+    z-index:999
+}

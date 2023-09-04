@@ -142,7 +142,7 @@ function handleCancelUpdate() {
       </div>
 
       <div class="flex justify-between">
-        <div class="w-720px">
+        <div class="w-980px">
           <template v-if="Array.isArray(data.comments) && !data.comments.length">
             <div class="rounded bg-white p-4">
               快写点东西
@@ -169,7 +169,7 @@ function handleCancelUpdate() {
                   </div>
                 </div>
 
-                <div>
+                <div v-if="comment.user.userId === user?.id">
                   <a-dropdown>
                     <a @click.prevent>
                       <div class="i-carbon-chevron-down" />
@@ -221,7 +221,7 @@ function handleCancelUpdate() {
           </template>
 
           <!-- create new  -->
-          <div class="mt-6 rounded bg-white p-4">
+          <div v-if="user?.id" class="mt-6 rounded bg-white p-4">
             <div class="flex">
               <div class="w-50px">
                 <a-avatar :size="35" :src=" user?.avatar">
@@ -240,7 +240,7 @@ function handleCancelUpdate() {
           </div>
         </div>
         <!-- right side -->
-        <div class="w-[250px]">
+        <div v-if="false" class="w-[250px]">
           <div class="rounded bg-white p-2">
             <div class="p-1">
               TOP TODO

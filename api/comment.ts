@@ -4,7 +4,7 @@ export interface IComment {
   id: string
   published_at: string
   created_at: string
-  user: IUser
+  user: IUser & { userId: string }
   content_markdown: string
   content_html: string
   like: number

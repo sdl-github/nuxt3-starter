@@ -4,7 +4,7 @@
 <template>
   <a-layout>
     <Header />
-    <main class="min-h-[calc(100vh-64px)]">
+    <main class="min-h-[calc(100vh-64px)] color-#252933">
       <slot />
     </main>
   </a-layout>
