@@ -67,7 +67,7 @@ async function handleDel(id: string) {
               {{ article.user?.nickname }}
             </a-avatar>
             <div class="ml-1 cursor-pointer color-[#515767] hover:color-[#1677ff]">
-              <NuxtLink :to="`/user/${article.user.id}`">
+              <NuxtLink :to="`/user/${article.user.userId}`">
                 {{ article.user?.nickname }}
               </NuxtLink>
             </div>

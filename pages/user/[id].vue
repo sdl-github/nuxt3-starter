@@ -7,18 +7,17 @@ import { queryUserInfoByUserId } from '@/api/user'
 const route = useRoute()
 const userStore = useUserStore()
 const userId = computed(() => route.params.id as string)
-const type = ref('article')
 
 const params = reactive<IArticlePageParams>({
   pageNo: 1,
   pageSize: 10,
   userId: userId.value,
-  type: type.value,
+  type: 'article',
 })
 
-const { data: user, error, mutate } = useSWRV(`queryUserInfoByUserId/${userId}/page/${params.pageNo}`, () => queryUserInfoByUserId(userId.value))
+const { data: user, error, mutate } = useSWRV(() => (userId.value && `queryUserInfoByUserId/${userId.value}`) || null, () => queryUserInfoByUserId(userId.value))
 
-const { data: articleList, mutate: mutateQueryArticlePage } = useSWRV(`queryArticlePage/${userId}`, () => queryArticlePage(params))
+const { data: articleList, mutate: mutateQueryArticlePage } = useSWRV(`queryArticlePage/${userId.value}/${params.type}/${params.pageNo}`, () => queryArticlePage(params))
 
 const isAuthor = computed(() => userId.value === userStore.user?.id)
 
@@ -67,7 +66,7 @@ function backToTop() {
           </div>
         </div>
       </template>
-      <a-tabs v-model:activeKey="type" @change="() => mutateQueryArticlePage()">
+      <a-tabs v-model:activeKey="params.type" @change="() => mutateQueryArticlePage()">
         <a-tab-pane key="article" tab="文章" />
         <a-tab-pane key="scrap" tab="碎片" />
       </a-tabs>

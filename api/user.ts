@@ -17,6 +17,7 @@ export function oauthLogin(type: string): Promise<string> {
 
 export interface IUser {
   id?: string
+  userId?: string
   username?: string
   nickname?: string
   avatar?: string
