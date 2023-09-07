@@ -10,8 +10,6 @@ const articleId = computed(() => route.params.id as string)
 const { data, error, mutate } = useSWRV(`queryArticleDetail/${articleId.value}`, () => queryArticleDetail(articleId.value))
 
 const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
-
-const timeAgo = computed(() => data.value && useTimeAgo(new Date(data.value.created_at)).value)
 </script>
 
 <template>
@@ -42,9 +40,15 @@ const timeAgo = computed(() => data.value && useTimeAgo(new Date(data.value.crea
           <div class="font-bold color-[#515767]">
             {{ data.user?.nickname || data.user?.username }}
           </div>
-          <div class="flex items-center">
+          <div class="flex items-center text-12px">
             <div class="color-[#8a919f]">
-              {{ timeAgo }}
+              创建与{{ data.created_at }}
+            </div>
+            <div v-if="data.updated_at" class="ml-4 flex color-[#8a919f]">
+              <div class="i-carbon-edit" />
+              <div class="ml-1">
+                {{ data.updated_at }}
+              </div>
             </div>
           </div>
         </div>

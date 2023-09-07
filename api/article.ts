@@ -27,6 +27,7 @@ export interface IArticle {
   comments_count: number
   published_at: string
   created_at: string
+  updated_at?: string
   user: IUser
   content_markdown: string
   content_html: string

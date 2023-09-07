@@ -3,7 +3,8 @@ import type { IUser } from './user'
 export interface IComment {
   id: string
   published_at: string
-  created_at: string
+  created_at?: string
+  updated_at?: string
   user: IUser & { userId: string }
   content_markdown: string
   content_html: string

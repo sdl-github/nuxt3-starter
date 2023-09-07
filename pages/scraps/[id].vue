@@ -18,8 +18,6 @@ const { data, error, mutate } = useSWRV(`queryArticleDetail/${articleId.value}`,
 
 const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
 
-const timeAgo = computed(() => data.value && useTimeAgo(new Date(data.value.created_at)).value)
-
 const commentForm = ref<ISaveComment>({
   id: '',
   content_html: '',
@@ -161,9 +159,15 @@ function handleCancelUpdate() {
                     <div class="font-bold color-[#515767]">
                       {{ comment.user?.nickname || comment.user?.username }}
                     </div>
-                    <div class="flex items-center">
+                    <div class="flex items-center text-12px">
                       <div class="color-[#8a919f]">
-                        {{ timeAgo }}
+                        创建与{{ comment.created_at }}
+                      </div>
+                      <div v-if="comment.updated_at" class="ml-4 flex color-[#8a919f]">
+                        <div class="i-carbon-edit" />
+                        <div class="ml-1">
+                          {{ comment.updated_at }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -201,7 +205,10 @@ function handleCancelUpdate() {
               </div>
 
               <template v-if="updateCommentForm.id === comment.id">
-                <div class="my-2 max-h-[600px] min-h-[200px] w-100%" :class="`${EDIT_MD_EDITOR_ID_PREFIX}${updateCommentForm.id}`">
+                <div
+                  class="my-2 max-h-[600px] min-h-[200px] w-100%"
+                  :class="`${EDIT_MD_EDITOR_ID_PREFIX}${updateCommentForm.id}`"
+                >
                   <MdEditor v-model:content="updateCommentForm.content_markdown" class="h-[100%] w-100%" />
                 </div>
               </template>
@@ -224,7 +231,7 @@ function handleCancelUpdate() {
           <div v-if="user?.id" class="mt-6 rounded bg-white p-4">
             <div class="flex">
               <div class="w-50px">
-                <a-avatar :size="35" :src=" user?.avatar">
+                <a-avatar :size="35" :src="user?.avatar">
                   {{ user?.nickname || user?.username }}
                 </a-avatar>
               </div>
