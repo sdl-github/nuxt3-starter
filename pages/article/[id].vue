@@ -2,6 +2,7 @@
 import useSWRV from 'swrv'
 import { queryArticleDetail } from '@/api/article'
 import '@/components/MdEditor/theme/smart-blue.css'
+import MdViewer from '@/components/MdEditor/MdViewer.vue'
 
 const route = useRoute()
 const userStore = useUserStore()
@@ -60,7 +61,7 @@ const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
           </div>
         </template>
       </div>
-      <div v-html="data.content_html" />
+      <MdViewer :value="data.content_markdown" />
     </template>
   </div>
 </template>
