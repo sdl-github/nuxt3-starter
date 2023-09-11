@@ -3,6 +3,7 @@ import { message } from 'ant-design-vue'
 import { getToken } from './auth'
 
 export const baseURL = 'https://worker.viewcode.online/api'
+export const embedUrl = 'https://embed.viewcode.online'
 // export const baseURL = 'http://localhost:8787/api'
 const instance = axios.create({
   baseURL,

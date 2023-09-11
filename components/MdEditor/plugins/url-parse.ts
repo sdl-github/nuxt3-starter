@@ -1,11 +1,11 @@
 import type { BytemdPlugin } from 'bytemd'
-import { visit } from 'unist-util-visit'
-import { isElement } from 'hast-util-is-element'
 import type { ElementContent, Properties, Root } from 'hast'
 import type { VFile } from 'vfile'
 import { h } from 'hastscript'
+import type { Transformer } from 'unified'
+import { visit } from 'unist-util-visit'
+
 import './style.css'
-import { parseGithubRepo } from '@/api/urlparse'
 
 export type ComponentFunction = (
   props: Properties,
@@ -36,35 +36,33 @@ function extractFullnameFromGithubLink(link) {
   // 没有找到匹配
   return null
 }
-async function rehypeUrl() {
-  return (tree, vfile) => {
+
+const urlDataCache = new Map()
+const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+
+function rehypeUrl(): void | Transformer<Root, Root> {
+  return async (tree, vfile) => {
     visit(tree, (node, index, parent) => {
-      if (!isElement(node))
-        return
-      if (node.tagName !== 'a')
+      if (!node.value)
         return
 
-      const url = node.properties?.href as string
-      const fullname = extractFullnameFromGithubLink(url)
-      let data = {}
-      parseGithubRepo(fullname).then((res) => {
-        console.log(res)
-        data = res
-      })
+      if (!urlRegex.test(node.value))
+        return
 
-      // const data = {
-      //   owner: 'bytedance',
-      //   name: 'bytemd',
-      //   full_name: 'bytedance/bytemd',
-      //   description: 'Hackable Markdown Editor and Viewer',
-      //   html_url: 'https://github.com/bytedance/bytemd',
-      //   language: 'TypeScript',
-      //   stargazers_count: 4199,
-      //   forks_count: 310,
-      // }
+      const loading = true
+      const data = {
+        owner: 'bytedance',
+        name: 'bytemd',
+        full_name: 'bytedance/bytemd',
+        description: 'Hackable Markdown Editor and Viewer',
+        html_url: 'https://github.com/bytedance/bytemd',
+        language: 'TypeScript',
+        stargazers_count: 4199,
+        forks_count: 310,
+      }
 
-      const component = (properties: Properties) =>
-        h('div', { class: 'preview-url-card' }, h('a', { href: properties.href, target: '_blank', class: 'preview-url-link' }, [
+      const component = () =>
+        h('div', { class: 'preview-url-card' }, h('a', { href: data.html_url, target: '_blank', class: 'preview-url-link' }, [
           h('div', { class: 'preview-link-name' }, [
             h('span', {}, data.owner),
             h('span', { class: 'preview-link-clash' }, '/'),
@@ -78,13 +76,12 @@ async function rehypeUrl() {
           ]),
         ]))
 
-      if (component && parent && index !== null) {
-        const replacedNode = component(
-          node.properties || {},
-        )
+      if (parent && index !== null) {
+        const replacedNode = component()
         parent.children[index] = replacedNode
         // This return value makes sure that the traversal continues by
         // visiting the children of the replaced node (if any)
+        return [SKIP, index]
       }
     })
   }

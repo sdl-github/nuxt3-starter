@@ -6,7 +6,14 @@ import breaks from '@bytemd/plugin-breaks'
 import frontmatter from '@bytemd/plugin-frontmatter'
 import gfm from '@bytemd/plugin-gfm'
 import shiki from './shiki'
-import urlParse from './url-parse'
+import linkEmbed from './link-embed'
+
+// import gemoji from '@bytemd/plugin-gemoji'
+// import breaks from '@bytemd/plugin-breaks'
+// import frontmatter from '@bytemd/plugin-frontmatter'
+// import gfm from '@bytemd/plugin-gfm'
+// import shiki from './shiki'
+// import urlParse from './url-parse'
 
 export const plugins = [
   gemoji(),
@@ -14,5 +21,5 @@ export const plugins = [
   frontmatter(),
   gfm(),
   shiki(),
-  urlParse(),
+  linkEmbed(),
 ]
