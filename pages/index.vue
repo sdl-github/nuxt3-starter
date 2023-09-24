@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { IArticlePageParams } from 'api/article'
-import useSWRV from 'swrv'
 import { queryArticlePage } from '@/api/article'
 
 const params = reactive<IArticlePageParams>({
@@ -8,8 +7,7 @@ const params = reactive<IArticlePageParams>({
   pageSize: 10,
 })
 
-const { data, error, mutate } = useSWRV(`queryArticlePage/page/${params.pageNo}`, () => queryArticlePage(params), {
-})
+const { data, pending, refresh } = useAsyncData(`queryArticlePage/page/${params.pageNo}`, () => queryArticlePage(params))
 
 const loading = computed(() => !data.value?.rows)
 const spinning = ref(false)
@@ -17,7 +15,7 @@ const spinning = ref(false)
 async function handleUpdateCurrent() {
   spinning.value = true
   backToTop()
-  await mutate()
+  await refresh()
   spinning.value = false
 }
 
@@ -34,15 +32,13 @@ function backToTop() {
   <div class="m-auto min-h-[100vh] w-[980px] rounded py-6">
     <div class="w-[980px] flex justify-between">
       <div class="w-[720px]">
-        <template v-if="loading">
-          <a-skeleton active />
-        </template>
-        <template v-else>
-          <a-spin tip="Loading..." :spinning="spinning">
-            <ArticleItem v-for="article in data?.rows" :key="article.id" :article="article" />
-            <a-pagination v-model:current="params.pageNo" size="default" :total="data?.total" show-less-items @update:current="handleUpdateCurrent" />
-          </a-spin>
-        </template>
+        <a-spin tip="Loading..." :spinning="spinning">
+          <ArticleItem v-for="article in data?.rows" :key="article.id" :article="article" />
+          <a-pagination
+            v-model:current="params.pageNo" size="default" :total="data?.total" show-less-items
+            @update:current="handleUpdateCurrent"
+          />
+        </a-spin>
       </div>
       <div class="w-[250px]">
         <div class="rounded bg-white p-2">

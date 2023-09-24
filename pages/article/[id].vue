@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import useSWRV from 'swrv'
 import { queryArticleDetail } from '@/api/article'
 import '@/components/MdEditor/theme/smart-blue.css'
 import MdViewer from '@/components/MdEditor/MdViewer.vue'
@@ -8,7 +7,7 @@ const route = useRoute()
 const userStore = useUserStore()
 const articleId = computed(() => route.params.id as string)
 
-const { data, error, mutate } = useSWRV(`queryArticleDetail/${articleId.value}`, () => queryArticleDetail(articleId.value))
+const { data, error, refresh } = useAsyncData(`queryArticleDetail/${articleId.value}`, () => queryArticleDetail(articleId.value))
 
 const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
 </script>

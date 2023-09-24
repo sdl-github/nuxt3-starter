@@ -2,7 +2,7 @@ import { pwa } from './config/pwa'
 import { appDescription } from './constants/index'
 
 export default defineNuxtConfig({
-  ssr: false,
+  ssr: true,
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
