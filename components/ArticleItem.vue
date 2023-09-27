@@ -46,8 +46,8 @@ async function handleDel(id: string) {
 <template>
   <div>
     <NuxtLink :to="toUrl">
-      <div class="group m-auto mb-4 w-[100%] flex cursor-pointer justify-between rounded bg-#fff px-4 py-3">
-        <div class="mr-2">
+      <div class="group m-auto mb-4 w-[100%] flex cursor-pointer justify-between rounded-2 bg-#fff px-4 py-3">
+        <div class="mr-2 flex flex-col justify-around">
           <div class="flex items-center">
             <div
               :class="`flex items-center rounded-full  p-0.5 px-2 text-sm  transition-all ${article.type === 'article' ? 'text-white bg-#807aff' : 'text-white bg-#1677ff'}`"
