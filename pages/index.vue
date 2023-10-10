@@ -1,22 +1,38 @@
 <script setup lang="ts">
-import type { IArticlePageParams } from 'api/article'
+import InfiniteLoading from 'v3-infinite-loading'
+import type { IArticle, IArticlePageParams } from 'api/article'
 import { queryArticlePage } from '@/api/article'
 
+definePageMeta({
+  keepalive: true,
+})
+
 const params = reactive<IArticlePageParams>({
-  pageNo: 1,
+  pageNo: 0,
   pageSize: 10,
 })
 
-const { data, pending, refresh } = useAsyncData(`queryArticlePage/page/${params.pageNo}`, () => queryArticlePage(params))
+const hasNext = ref(true)
 
-const loading = computed(() => !data.value?.rows)
-const spinning = ref(false)
+const data = ref<IArticle[]>([])
 
-async function handleUpdateCurrent() {
-  spinning.value = true
-  backToTop()
-  await refresh()
-  spinning.value = false
+async function loadMoreData($state: any) {
+  if (!hasNext.value) {
+    $state.complete()
+    return
+  }
+  params.pageNo = params.pageNo + 1
+  try {
+    const { hasNextPage, rows } = await queryArticlePage(params)
+    data.value?.push(...rows)
+    $state.loaded()
+    hasNext.value = !!hasNextPage
+    if (!hasNextPage)
+      $state.complete()
+  }
+  catch (e) {
+    $state.error()
+  }
 }
 
 function backToTop() {
@@ -32,13 +48,20 @@ function backToTop() {
   <div class="m-auto min-h-[100vh] w-[980px] rounded py-6">
     <div class="w-[980px] flex justify-between">
       <div class="w-[720px]">
-        <a-spin tip="Loading..." :spinning="spinning">
-          <ArticleItem v-for="article in data?.rows" :key="article.id" :article="article" />
-          <a-pagination
-            v-model:current="params.pageNo" size="default" :total="data?.total" show-less-items
-            @update:current="handleUpdateCurrent"
-          />
-        </a-spin>
+        <ArticleItem v-for="article in data" :key="article.id" :article="article" />
+
+        <InfiniteLoading @infinite="loadMoreData">
+          <template #spinner>
+            <div class="w-full flex justify-center py-4">
+              <a-spin />
+            </div>
+          </template>
+          <template #complete>
+            <div class="w-full flex justify-center py-4">
+              <span>一点也没有了</span>
+            </div>
+          </template>
+        </InfiniteLoading>
       </div>
       <div class="w-[250px]">
         <div class="rounded bg-white p-2">

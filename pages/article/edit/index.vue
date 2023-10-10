@@ -111,9 +111,6 @@ async function handlePublish(data: { icon: string; tags: string[] }) {
           <a-button type="primary" class="flex items-center" @click="handleOpenArticleModal">
             发布
           </a-button>
-          <!-- <a-button type="primary" class="ml-2 flex items-center" @click="handleSaveArticle">
-            保存
-          </a-button> -->
           <ArticlePostModal ref="articlePostModalRef" @ok="handlePublish" />
         </div>
       </div>

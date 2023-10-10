@@ -53,6 +53,7 @@
     "hastscript": "^8.0.0",
     "rehype-components": "github:marekweb/rehype-components",
     "swrv": "^1.0.4",
-    "turndown": "^7.1.2"
+    "turndown": "^7.1.2",
+    "v3-infinite-loading": "^1.3.1"
   }
 }

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import useSWRV from 'swrv'
 import { queryArticleDetail } from '@/api/article'
 import '@/components/MdEditor/theme/smart-blue.css'
 import { createComment, deleteComment, updateArticle } from '@/api/comment'
@@ -14,7 +13,7 @@ const user = computed(() => userStore.user)
 const articleId = computed(() => route.params.id as string)
 const saveLoading = ref(false)
 
-const { data, error, mutate } = useSWRV(`queryArticleDetail/${articleId.value}`, () => queryArticleDetail(articleId.value))
+const { data, error, refresh: mutate } = useAsyncData(`queryArticleDetail/${articleId.value}`, () => queryArticleDetail(articleId.value))
 
 const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
 

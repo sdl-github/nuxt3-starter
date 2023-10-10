@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import useSWRV from 'swrv'
 import type { IArticlePageParams } from '@/api/article'
 import { queryArticlePage } from '@/api/article'
 import { queryUserInfoByUserId } from '@/api/user'
@@ -15,9 +14,9 @@ const params = reactive<IArticlePageParams>({
   type: 'article',
 })
 
-const { data: user, error, mutate } = useSWRV(() => (userId.value && `queryUserInfoByUserId/${userId.value}`) || null, () => queryUserInfoByUserId(userId.value))
+const { data: user, error, refresh } = useAsyncData(`queryUserInfoByUserId/${userId.value}`, () => queryUserInfoByUserId(userId.value))
 
-const { data: articleList, mutate: mutateQueryArticlePage } = useSWRV(`queryArticlePage/${userId.value}/${params.type}/${params.pageNo}`, () => queryArticlePage(params))
+const { data: articleList, refresh: mutateQueryArticlePage } = useAsyncData(`queryArticlePage/${userId.value}/${params.type}/${params.pageNo}`, () => queryArticlePage(params))
 
 const isAuthor = computed(() => userId.value === userStore.user?.id)
 

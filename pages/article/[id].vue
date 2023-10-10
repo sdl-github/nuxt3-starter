@@ -3,6 +3,10 @@ import { queryArticleDetail } from '@/api/article'
 import '@/components/MdEditor/theme/smart-blue.css'
 import MdViewer from '@/components/MdEditor/MdViewer.vue'
 
+definePageMeta({
+  keepalive: true,
+})
+
 const route = useRoute()
 const userStore = useUserStore()
 const articleId = computed(() => route.params.id as string)
