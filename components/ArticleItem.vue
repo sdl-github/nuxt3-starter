@@ -57,7 +57,7 @@ async function handleDel(id: string) {
                 {{ article.type === 'article' ? '文章' : '碎片' }}
               </div>
             </div>
-            <div class="mx-2 cursor-pointer text-[16px] font-bold leading-6">
+            <div class="mx-2 max-w-500px cursor-pointer truncate text-[16px] font-bold leading-6">
               {{ article.title }}
             </div>
           </div>
