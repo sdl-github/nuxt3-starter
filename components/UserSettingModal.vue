@@ -105,20 +105,29 @@ defineExpose({
               活动设备
             </div>
             <a-divider class="my-2" />
-            <div>
+            <div class="overflow-auto">
               <div v-for="(record, index) in loginRecords" :key="index">
-                <div class="flex p-2">
+                <div class="flex items-center p-2">
                   <div class="h-80px w-80px">
-                    <SvgIcon name="pc"/>
+                    <SvgIcon :name="record.deviceInfo.isMobile ? 'phone' : 'pc'" class="h-80px w-80px" />
                   </div>
-                  <div>
-                    <div>{{ record.deviceInfo.device.model || '未知' }}</div>
-                    <div>
-                      <span>{{ record.deviceInfo.browser.name }}</span>
-                      <span class="ml-2">{{ record.deviceInfo.browser.version }}</span>
+                  <div class="ml-4">
+                    <div class="flex">
+                      <div>
+                        {{ record.deviceInfo.device.model || '未知' }}
+                      </div>
+                      <div v-if="record.current" class="ml-2 text-#1677ff">
+                        当前设备
+                      </div>
                     </div>
-                    <div>{{ record.deviceInfo.ip }}</div>
-                    <div>{{ record.deviceInfo.created_at }}</div>
+                    <div class="text-12px text-#000-300">
+                      <div>
+                        <span>{{ record.deviceInfo.browser.name }}</span>
+                        <span class="ml-2">{{ record.deviceInfo.browser.version }}</span>
+                      </div>
+                      <div>{{ record.deviceInfo.ip }}</div>
+                      <div>{{ record.created_at }}</div>
+                    </div>
                   </div>
                 </div>
               </div>
