@@ -28,6 +28,7 @@ export interface IArticle {
   published_at: string
   created_at: string
   updated_at?: string
+  is_pinned?: boolean
   user: IUser
   content_markdown: string
   content_html: string

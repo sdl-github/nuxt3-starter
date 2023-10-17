@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import LoginModal, { useModal } from './LoginModal.vue'
+import UserSettingModal from './UserSettingModal.vue'
 
+const userSettingModalRef = ref()
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
 const router = useRouter()
@@ -14,6 +16,10 @@ function handleOpenLogin() {
 function handleLogout() {
   userStore.logout()
   message.success('退出成功')
+}
+
+function handleOpenSetting() {
+  userSettingModalRef.value.start()
 }
 </script>
 
@@ -43,13 +49,14 @@ function handleLogout() {
                       个人中心
                     </NuxtLink>
                   </a-menu-item>
-                  <a-menu-item>
+                  <a-menu-item @click="handleOpenSetting">
                     <template #icon>
                       <div class="i-carbon-settings" />
                     </template>
-                    <NuxtLink to="/settings/profile">
+                    <UserSettingModal ref="userSettingModalRef" />
+                    <span>
                       账户设置
-                    </NuxtLink>
+                    </span>
                   </a-menu-item>
                   <a-menu-item @click="handleLogout">
                     <template #icon>

@@ -44,7 +44,8 @@ async function handleDel(id: string) {
 </script>
 
 <template>
-  <div>
+  <div class="relative">
+    <div v-if="article.is_pinned" class="absolute right-0 top-0 h-40px w-40px border-20px border-red-500 border-b-transparent border-l-transparent border-solid" />
     <NuxtLink :to="toUrl">
       <div class="group m-auto mb-4 w-[100%] flex cursor-pointer justify-between rounded-2 bg-#fff px-4 py-3">
         <div class="mr-2 flex flex-col justify-around">

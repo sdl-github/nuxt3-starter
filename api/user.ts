@@ -22,6 +22,7 @@ export interface IUser {
   nickname?: string
   avatar?: string
   note?: string
+  passwordEnable?: boolean
 }
 
 export function userInfo(): Promise<IUser> {
@@ -41,5 +42,19 @@ export function updateUserProfile(data: IUser) {
 export function queryUserInfoByUserId(userId: string): Promise<IUser> {
   return request({
     url: `/user/${userId}`,
+  })
+}
+
+export function setPassword(data: { oldPassword: string; newPassword: string }) {
+  return request({
+    url: '/user/setPassword',
+    method: 'POST',
+    data,
+  })
+}
+
+export function getLoginRecords() {
+  return request({
+    url: '/user/loginRecords',
   })
 }

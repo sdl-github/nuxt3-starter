@@ -1,6 +1,9 @@
+import path from 'node:path'
+import process from 'node:process'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { pwa } from './config/pwa'
 import { appDescription } from './constants/index'
-
+console.log(path.resolve(process.cwd(), 'assets/svg'))
 export default defineNuxtConfig({
   ssr: false,
   modules: [
@@ -70,5 +73,13 @@ export default defineNuxtConfig({
         'ant-design-vue': 'ant-design-vue/es',
       },
     },
+    plugins: [
+      createSvgIconsPlugin({
+        // 指定需要缓存的图标文件夹
+        iconDirs: [path.resolve(process.cwd(), 'assets/svg')],
+        // 指定symbolId格式
+        symbolId: 'icon-[dir]-[name]',
+      }),
+    ],
   },
 })
