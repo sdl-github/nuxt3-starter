@@ -105,9 +105,9 @@ defineExpose({
               活动设备
             </div>
             <a-divider class="my-2" />
-            <div class="overflow-auto">
+            <div class="max-h-400px overflow-auto">
               <div v-for="(record, index) in loginRecords" :key="index">
-                <div class="flex items-center p-2">
+                <div class="flex cursor-pointer items-center rounded-[7px] p-2 hover:bg-[#EFEFEF]">
                   <div class="h-80px w-80px">
                     <SvgIcon :name="record.deviceInfo.isMobile ? 'phone' : 'pc'" class="h-80px w-80px" />
                   </div>
