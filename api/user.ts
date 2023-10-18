@@ -58,3 +58,18 @@ export function getLoginRecords() {
     url: '/user/loginRecords',
   })
 }
+
+export function logout() {
+  return request({
+    url: '/user/logout',
+    method: 'POST',
+  })
+}
+
+export function revoke(params: { id: string }) {
+  return request({
+    url: '/user/revoke',
+    method: 'POST',
+    params,
+  })
+}

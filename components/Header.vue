@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import LoginModal, { useModal } from './LoginModal.vue'
 import UserSettingModal from './UserSettingModal.vue'
+import { logout } from '@/api/user'
 
 const userSettingModalRef = ref()
 const userStore = useUserStore()
@@ -13,9 +14,16 @@ function handleOpenLogin() {
   model.setOpen(true)
 }
 
-function handleLogout() {
-  userStore.logout()
-  message.success('退出成功')
+async function handleLogout() {
+  try {
+    const loading = message.loading('加载中')
+    await logout()
+    loading()
+    userStore.logout()
+    message.success('退出成功')
+  }
+  catch (error) {
+  }
 }
 
 function handleOpenSetting() {

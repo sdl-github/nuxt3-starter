@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import UserSetPassword from './UserSetPassword.vue'
-import { getLoginRecords } from '@/api/user'
+import { getLoginRecords, revoke } from '@/api/user'
 
 const emits = defineEmits(['ok'])
 const open = ref(false)
@@ -15,22 +15,31 @@ enum ShowKey {
   setting,
   passwordSetting,
 }
+const revokeLoading = ref(false)
 
 const userStore = useUserStore()
-
-watchEffect(() => {
-  if (open.value)
-    userStore.init()
-})
 
 const showKey = ref(ShowKey.setting)
 
 const user = computed(() => userStore.user)
 
-const { data: loginRecords } = useAsyncData(`getLoginRecords/${user.value?.id}`, () => getLoginRecords())
+const { data: loginRecords, refresh } = useAsyncData(`getLoginRecords/${user.value?.id}`, () => getLoginRecords())
+
+const { pause, resume, isActive } = useIntervalFn(() => {
+  refresh()
+}, 5000)
 
 const activeKey = ref('account')
 
+watchEffect(() => {
+  if (open.value) {
+    userStore.init()
+    resume()
+  }
+  else {
+    pause()
+  }
+})
 function ok() {
   emits('ok', unref(form))
 }
@@ -48,6 +57,21 @@ function back() {
   showKey.value = ShowKey.setting
 }
 
+async function handleRevoke(id: string) {
+  const loading = message.loading('加载中')
+  try {
+    revokeLoading.value = true
+    await revoke({ id })
+    await refresh()
+    loading()
+    revokeLoading.value = false
+    message.success('操作成功')
+  }
+  catch (e) {
+    revokeLoading.value = false
+    loading()
+  }
+}
 defineExpose({
   start,
 })
@@ -107,20 +131,23 @@ defineExpose({
             <a-divider class="my-2" />
             <div class="max-h-400px overflow-auto">
               <div v-for="(record, index) in loginRecords" :key="index">
-                <div class="flex cursor-pointer items-center rounded-[7px] p-2 hover:bg-[#EFEFEF]">
+                <div class="group relative flex cursor-pointer items-center rounded-[7px] p-2 hover:bg-[#EFEFEF]">
                   <div class="h-80px w-80px">
                     <SvgIcon :name="record.deviceInfo.isMobile ? 'phone' : 'pc'" class="h-80px w-80px" />
                   </div>
                   <div class="ml-4">
-                    <div class="flex">
+                    <div class="flex items-center">
                       <div>
                         {{ record.deviceInfo.device.model || '未知' }}
                       </div>
-                      <div v-if="record.current" class="ml-2 text-#1677ff">
+                      <div v-if="record.current" class="ml-2 text-12px text-#1677ff">
                         当前设备
                       </div>
+                      <div v-if="record.is_expired" class="ml-2 text-12px text-#999AA5">
+                        登录已过期
+                      </div>
                     </div>
-                    <div class="text-12px text-#000-300">
+                    <div class="text-12px text-#000">
                       <div>
                         <span>{{ record.deviceInfo.browser.name }}</span>
                         <span class="ml-2">{{ record.deviceInfo.browser.version }}</span>
@@ -128,6 +155,12 @@ defineExpose({
                       <div>{{ record.deviceInfo.ip }}</div>
                       <div>{{ record.created_at }}</div>
                     </div>
+                  </div>
+
+                  <div v-if="!record.current" class="absolute right-20px display-none group-hover:display-flex">
+                    <a-button :loading="revokeLoading" type="text" danger @click="handleRevoke(record.id)">
+                      {{ record.is_expired ? '删除记录' : '退出设备' }}
+                    </a-button>
                   </div>
                 </div>
               </div>
