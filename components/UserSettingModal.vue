@@ -82,11 +82,14 @@ defineExpose({
 
 <template>
   <a-modal
-    :footer="false" :closable="true" :open="open" :mask-closable="false" :mask="true" width="600px"
+    :footer="false" :closable="true" :open="open" :mask-closable="false" :mask="true" width="680px"
     :mask-style="{ backdropFilter: 'blur(8px)', backgroundColor: 'rgba(243, 244, 246, 0.1)' }" @cancel="cancel" @ok="ok"
   >
     <div class="">
       <a-tabs v-model:activeKey="activeKey" tab-position="left" @change="() => showKey = ShowKey.setting">
+        <template #renderTabBar="{ DefaultTabBar, ...props }">
+          <component :is="DefaultTabBar" v-bind="props" :style="{ width: 100 }" />
+        </template>
         <a-tab-pane key="account" tab="账户">
           <template v-if="showKey === ShowKey.setting">
             <div class="text-25px font-bold">
