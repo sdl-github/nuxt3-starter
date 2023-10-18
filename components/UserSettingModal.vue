@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import UserSetPassword from './UserSetPassword.vue'
+import UserInfoSetting from './UserInfoSetting.vue'
 import { getLoginRecords, revoke } from '@/api/user'
 
 const emits = defineEmits(['ok'])
@@ -14,6 +15,7 @@ const form = ref<IForm>({
 enum ShowKey {
   setting,
   passwordSetting,
+  userInfoSetting,
 }
 const revokeLoading = ref(false)
 
@@ -40,6 +42,7 @@ watchEffect(() => {
     pause()
   }
 })
+
 function ok() {
   emits('ok', unref(form))
 }
@@ -83,30 +86,36 @@ defineExpose({
     :mask-style="{ backdropFilter: 'blur(8px)', backgroundColor: 'rgba(243, 244, 246, 0.1)' }" @cancel="cancel" @ok="ok"
   >
     <div class="">
-      <a-tabs v-model:activeKey="activeKey" tab-position="left">
+      <a-tabs v-model:activeKey="activeKey" tab-position="left" @change="() => showKey = ShowKey.setting">
         <a-tab-pane key="account" tab="账户">
-          <div class="text-25px font-bold">
-            账户
-          </div>
-          <div class="mt-1">
-            管理您的账户信息
-          </div>
-          <div class="mt-4 font-bold">
-            个人资料
-          </div>
-          <a-divider class="my-2" />
-          <div class="w-full flex cursor-pointer items-center rounded-[7px] p-2 hover:bg-[#EFEFEF]">
-            <a-avatar :size="50" :src="user?.avatar" :alt="user?.nickname">
-              {{ user?.nickname }}
-            </a-avatar>
-            <div class="ml-4">
-              {{ user?.nickname }}
+          <template v-if="showKey === ShowKey.setting">
+            <div class="text-25px font-bold">
+              账户
             </div>
-          </div>
-          <div class="mt-4 font-bold">
-            已连接的账户
-          </div>
-          <a-divider class="my-2" />
+            <div class="mt-1">
+              管理您的账户信息
+            </div>
+            <div class="mt-4 font-bold">
+              个人资料
+            </div>
+            <a-divider class="my-2" />
+            <div class="group w-full flex cursor-pointer items-center justify-between rounded-[7px] p-2 hover:bg-[#EFEFEF]" @click="() => showKey = ShowKey.userInfoSetting">
+              <div class="flex items-center">
+                <a-avatar :size="50" :src="user?.avatar" :alt="user?.nickname">
+                  {{ user?.nickname }}
+                </a-avatar>
+                <div class="ml-4">
+                  {{ user?.nickname }}
+                </div>
+              </div>
+              <div class="i-carbon-arrow-right mr-6 display-none text-12px group-hover:display-flex" />
+            </div>
+            <div class="mt-4 font-bold">
+              已连接的账户
+            </div>
+            <a-divider class="my-2" />
+          </template>
+          <UserInfoSetting v-if="showKey === ShowKey.userInfoSetting" @back="back" />
         </a-tab-pane>
         <a-tab-pane key="security" tab="安全">
           <template v-if="showKey === ShowKey.setting">
@@ -138,7 +147,8 @@ defineExpose({
                   <div class="ml-4">
                     <div class="flex items-center">
                       <div>
-                        {{ record.deviceInfo.device.model || '未知' }}
+                        {{ record.deviceInfo.os.name }}
+                        {{ record.deviceInfo.device.model }}
                       </div>
                       <div v-if="record.current" class="ml-2 text-12px text-#1677ff">
                         当前设备
