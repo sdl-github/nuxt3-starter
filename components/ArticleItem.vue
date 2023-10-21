@@ -51,14 +51,15 @@ function goLink(path: string) {
 </script>
 
 <template>
-  <div class="relative">
-    <div v-if="article.is_pinned" class="absolute right-0 top-0 h-40px w-40px border-20px border-red-500 border-b-transparent border-l-transparent border-solid" />
-    <NuxtLink :to="toUrl" class="hover:color-[#515767]">
-      <div class="group m-auto mb-4 w-[100%] flex cursor-pointer justify-between rounded-2 bg-#fff px-4 py-3">
+  <NuxtLink :to="toUrl" class="group relative hover:color-[#515767]">
+    <div class="hover-overlay" />
+    <div class="relative mb-4 rounded-2 bg-white px-4 py-3 transition-all transition-duration-[0.5s] hover-bg-slate-200">
+      <SvgIcon v-if="article.is_pinned" class="absolute right-0 top-[-1em] h-[2em] w-[2em] text-red" name="pin" />
+      <div class="w-[100%] flex cursor-pointer justify-between">
         <div class="mr-2 flex flex-col justify-around">
           <div class="flex items-center">
             <div
-              :class="`flex items-center rounded-full  p-0.5 px-2 text-sm  transition-all ${article.type === 'article' ? 'text-white bg-#807aff' : 'text-white bg-#1677ff'}`"
+              :class="`flex items-center p-0.5 px-2 text-sm  transition-all ${article.type === 'article' ? 'text-white bg-#807aff' : 'text-white bg-#1677ff'}`"
             >
               <div :class="`${article.type === 'article' ? 'i-carbon-document' : 'i-carbon-carbon'} text-[12px]`" />
               <div class="ml-1 text-[12px]">
@@ -77,7 +78,10 @@ function goLink(path: string) {
               <a-avatar size="small" :src="article.user?.avatar">
                 {{ article.user?.nickname }}
               </a-avatar>
-              <div class="ml-1 cursor-pointer color-[#515767] hover:color-[#1677ff]" @click="goLink(`/user/${article.user.userId}`)">
+              <div
+                class="ml-1 cursor-pointer color-[#515767] hover:color-[#1677ff]"
+                @click="goLink(`/user/${article.user.userId}`)"
+              >
                 {{ article.user?.nickname }}
               </div>
               <div class="ml-2 color-[#8a919f]">
@@ -106,7 +110,10 @@ function goLink(path: string) {
             <span class="text-[3em]">{{ article.icon }}</span>
           </div>
           <div v-if="isAuthor" class="w-[92px] flex items-center justify-around rounded">
-            <a-button shape="circle" class="flex items-center justify-center" @click="goLink(`/article/edit?id=${article.id}`)">
+            <a-button
+              shape="circle" class="flex items-center justify-center"
+              @click="goLink(`/article/edit?id=${article.id}`)"
+            >
               <div class="i-carbon-edit" />
             </a-button>
 
@@ -116,8 +123,10 @@ function goLink(path: string) {
           </div>
         </div>
       </div>
-    </NuxtLink>
-  </div>
+    </div>
+  </NuxtLink>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

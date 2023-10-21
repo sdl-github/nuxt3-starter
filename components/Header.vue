@@ -6,7 +6,9 @@ import { logout } from '@/api/user'
 const userSettingModalRef = ref()
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
-const router = useRouter()
+
+const { y } = useScroll(typeof window !== 'undefined' ? window : null)
+const scrolled = computed(() => y.value > 30)
 
 const model = useModal()
 
@@ -32,8 +34,11 @@ function handleOpenSetting() {
 </script>
 
 <template>
-  <a-layout-header class="layout-header">
-    <div class="m-auto h-[100%] max-w-[980px] flex items-center justify-between">
+  <div
+    class="sticky top-0 z-1 h-[50px] w-full flex transform-gpu items-center border-b border-gray-200 transition-all"
+    :class="[scrolled ? ' bg-white/50 backdrop-blur-xl' : 'bg-white']"
+  >
+    <div class="m-auto h-full max-w-[980px] w-full flex items-center justify-between">
       <div class="gradient-text cursor-pointer text-xl font-bold">
         <NuxtLink to="/">
           Cloud Note
@@ -114,21 +119,10 @@ function handleOpenSetting() {
         </template>
       </ClientOnly>
     </div>
-  </a-layout-header>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.layout-header {
-  position: sticky;
-  top: 0;
-  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
-  z-index: 1;
-  align-items: center;
-  width: 100%;
-  background: #fff;
-  padding: 0;
-}
-
 .gradient-text {
   // background-image: linear-gradient(20deg, #E21143, #FFB03A);
   background-image: linear-gradient(to right, #00c6fb 0%, #005bea 100%);

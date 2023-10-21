@@ -42,7 +42,7 @@ async function loadMoreData($state?: any) {
 <template>
   <div class="m-auto min-h-[100vh] w-[980px] rounded py-6">
     <div class="w-[980px] flex justify-between">
-      <div class="w-[720px]">
+      <div class="w-[720px] cursor-pointer">
         <ArticleItem v-for="article in data" :key="article.id" :article="article" />
         <InfiniteLoading :firstload="true" @infinite="loadMoreData">
           <template #spinner>
