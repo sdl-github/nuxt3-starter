@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import InfiniteLoading from 'v3-infinite-loading'
-import type { IArticle, IArticlePageParams } from 'api/article'
+import type { IArticle, IArticlePageParams } from '@/api/article'
 import { queryArticlePage } from '@/api/article'
+
+definePageMeta({
+  keepalive: true,
+  scrollToTop: true,
+})
 
 const params = reactive<IArticlePageParams>({
   pageNo: 0,
