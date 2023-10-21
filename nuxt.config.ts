@@ -3,9 +3,9 @@ import process from 'node:process'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { pwa } from './config/pwa'
 import { appDescription } from './constants/index'
-console.log(path.resolve(process.cwd(), 'assets/svg'))
+
 export default defineNuxtConfig({
-  ssr: false,
+  ssr: true,
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   },
 
   css: [
-    // '@unocss/reset/tailwind-compat.css',
+    '@unocss/reset/tailwind-compat.css',
     '@/assets/css/reset.css',
   ],
 

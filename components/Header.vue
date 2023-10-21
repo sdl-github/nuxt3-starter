@@ -110,7 +110,7 @@ function handleOpenSetting() {
         </div>
         <template #fallback>
           <!-- this will be rendered on server side -->
-          <p>Loading ...</p>
+          <a-spin />
         </template>
       </ClientOnly>
     </div>

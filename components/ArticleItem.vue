@@ -18,6 +18,9 @@ const emits = defineEmits(['refresh'])
 const timeAgo = useTimeAgo(new Date(props.article.created_at))
 
 const toUrl = computed(() => props.article.type === 'article' ? `/article/${props.article.id}` : `/scraps/${props.article.id}`)
+
+const router = useRouter()
+
 async function handleDel(id: string) {
   Modal.confirm({
     title: '确认删除吗?',
@@ -41,12 +44,16 @@ async function handleDel(id: string) {
     },
   })
 }
+
+function goLink(path: string) {
+  router.push(path)
+}
 </script>
 
 <template>
   <div class="relative">
     <div v-if="article.is_pinned" class="absolute right-0 top-0 h-40px w-40px border-20px border-red-500 border-b-transparent border-l-transparent border-solid" />
-    <NuxtLink :to="toUrl">
+    <NuxtLink :to="toUrl" class="hover:color-[#515767]">
       <div class="group m-auto mb-4 w-[100%] flex cursor-pointer justify-between rounded-2 bg-#fff px-4 py-3">
         <div class="mr-2 flex flex-col justify-around">
           <div class="flex items-center">
@@ -70,10 +77,8 @@ async function handleDel(id: string) {
               <a-avatar size="small" :src="article.user?.avatar">
                 {{ article.user?.nickname }}
               </a-avatar>
-              <div class="ml-1 cursor-pointer color-[#515767] hover:color-[#1677ff]">
-                <NuxtLink :to="`/user/${article.user.userId}`">
-                  {{ article.user?.nickname }}
-                </NuxtLink>
+              <div class="ml-1 cursor-pointer color-[#515767] hover:color-[#1677ff]" @click="goLink(`/user/${article.user.userId}`)">
+                {{ article.user?.nickname }}
               </div>
               <div class="ml-2 color-[#8a919f]">
                 {{ timeAgo }}
@@ -101,11 +106,9 @@ async function handleDel(id: string) {
             <span class="text-[3em]">{{ article.icon }}</span>
           </div>
           <div v-if="isAuthor" class="w-[92px] flex items-center justify-around rounded">
-            <NuxtLink :to="`/article/edit?id=${article.id}`">
-              <a-button shape="circle" class="flex items-center justify-center">
-                <div class="i-carbon-edit" />
-              </a-button>
-            </NuxtLink>
+            <a-button shape="circle" class="flex items-center justify-center" @click="goLink(`/article/edit?id=${article.id}`)">
+              <div class="i-carbon-edit" />
+            </a-button>
 
             <a-button shape="circle" class="flex items-center justify-center">
               <div class="i-carbon-trash-can" @click="handleDel(article.id)" />

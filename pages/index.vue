@@ -3,10 +3,6 @@ import InfiniteLoading from 'v3-infinite-loading'
 import type { IArticle, IArticlePageParams } from 'api/article'
 import { queryArticlePage } from '@/api/article'
 
-definePageMeta({
-  keepalive: true,
-})
-
 const params = reactive<IArticlePageParams>({
   pageNo: 0,
   pageSize: 10,
@@ -16,22 +12,24 @@ const hasNext = ref(true)
 
 const data = ref<IArticle[]>([])
 
-async function loadMoreData($state: any) {
+await loadMoreData()
+
+async function loadMoreData($state?: any) {
   if (!hasNext.value) {
-    $state.complete()
+    $state && $state.complete()
     return
   }
   params.pageNo = params.pageNo + 1
   try {
     const { hasNextPage, rows } = await queryArticlePage(params)
     data.value?.push(...rows)
-    $state.loaded()
+    $state && $state.loaded()
     hasNext.value = !!hasNextPage
     if (!hasNextPage)
-      $state.complete()
+      $state && $state.complete()
   }
   catch (e) {
-    $state.error()
+    $state && $state.error()
   }
 }
 
@@ -49,15 +47,14 @@ function backToTop() {
     <div class="w-[980px] flex justify-between">
       <div class="w-[720px]">
         <ArticleItem v-for="article in data" :key="article.id" :article="article" />
-
-        <InfiniteLoading @infinite="loadMoreData">
+        <InfiniteLoading :firstload="true" @infinite="loadMoreData">
           <template #spinner>
             <div class="w-full flex justify-center py-4">
               <a-spin />
             </div>
           </template>
           <template #complete>
-            <div class="w-full flex justify-center py-4">
+            <div class="w-full flex justify-center py-4 text-12px color-[#515767]">
               <span>一点也没有了</span>
             </div>
           </template>
