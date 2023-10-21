@@ -37,14 +37,6 @@ async function loadMoreData($state?: any) {
     $state && $state.error()
   }
 }
-
-function backToTop() {
-  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-  if (scrollTop > 0) {
-    window.requestAnimationFrame(backToTop)
-    window.scrollTo(0, scrollTop - scrollTop / 8)
-  }
-}
 </script>
 
 <template>
