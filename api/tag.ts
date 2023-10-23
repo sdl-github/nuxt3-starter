@@ -1,4 +1,4 @@
-import type { IPage } from 'api'
+import type { IPage } from '@/api'
 
 export interface ITagPageParams {
   pageNo: number

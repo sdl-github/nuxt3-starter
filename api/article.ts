@@ -1,6 +1,6 @@
-import type { IPage } from 'api'
 import type { IUser } from './user'
 import type { IComment } from './comment'
+import type { IPage } from '@/api'
 
 export interface IArticlePageParams {
   pageNo: number
@@ -25,6 +25,7 @@ export interface IArticle {
   type: string
   like: number
   comments_count: number
+  see: number
   published_at: string
   created_at: string
   updated_at?: string

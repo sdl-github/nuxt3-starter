@@ -75,7 +75,10 @@ export function useModal() {
 </script>
 
 <template>
-  <a-modal :footer="null" :open="open" :mask="false" width="400px" @cancel="setOpen(false)">
+  <a-modal
+    :footer="null" :open="open"
+    :mask-style="{ backdropFilter: 'blur(8px)', backgroundColor: 'rgba(243, 244, 246, 0.1)' }" width="400px" @cancel="setOpen(false)"
+  >
     <div class="flex items-center justify-center p-[2px]">
       <div class="w-[100%] rounded bg-white p-2">
         <div class="text-bold h-[50px] text-xl">

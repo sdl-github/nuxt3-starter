@@ -57,7 +57,7 @@ const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
           </div>
         </div>
       </div>
-      <div class="flex">
+      <div class="mb-4 flex">
         <template v-for="tag in data.tags" :key="tag.tagId">
           <div class="hover:bg-[#f1f5f9]-200 ml-2 rounded-full bg-[#f1f5f9] p-1 px-4 text-[0.8em] text-[#8a919f] transition-all">
             {{ tag.tagName }}

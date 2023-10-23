@@ -58,7 +58,7 @@ function goLink(path: string) {
         <div class="mr-2 flex flex-col justify-around">
           <div class="flex items-center">
             <div
-              :class="`flex items-center p-0.5 px-2 text-sm  transition-all ${article.type === 'article' ? 'text-white bg-#807aff' : 'text-white bg-#1677ff'}`"
+              :class="`rounded-10 flex items-center p-0.5 px-2 text-sm  transition-all ${article.type === 'article' ? 'text-white bg-#807aff' : 'text-white bg-#1677ff'}`"
             >
               <div :class="`${article.type === 'article' ? 'i-carbon-document' : 'i-carbon-carbon'} text-[12px]`" />
               <div class="ml-1 text-[12px]">
@@ -88,7 +88,13 @@ function goLink(path: string) {
               </div>
             </div>
             <div class="ml-4 flex">
-              <div v-if="article.comments_count" class="flex items-center text-[#8a919f]">
+              <div v-if="article.see" class="flex items-center text-[#8a919f]">
+                <div class="i-carbon-view" />
+                <div class="ml-1 text-[0.8em]">
+                  {{ article.see }}
+                </div>
+              </div>
+              <div v-if="article.comments_count" class="ml-2 flex items-center text-[#8a919f]">
                 <div class="i-carbon-chat" />
                 <div class="ml-1 text-[0.8em]">
                   {{ article.comments_count }}
