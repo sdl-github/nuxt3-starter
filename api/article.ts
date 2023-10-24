@@ -84,3 +84,11 @@ export function deleteArticle(id: string) {
     method: 'DELETE',
   })
 }
+
+export function aiSummary(id: string, forceUpdate: boolean = false) {
+  return request({
+    url: `/ai/summary/${id}`,
+    method: 'POST',
+    data: { forceUpdate },
+  })
+}

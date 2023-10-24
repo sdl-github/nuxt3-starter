@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { queryArticleDetail } from '@/api/article'
+import { aiSummary, queryArticleDetail } from '@/api/article'
 import '@/components/MdEditor/theme/smart-blue.css'
 import MdViewer from '@/components/MdEditor/MdViewer.vue'
 
@@ -10,10 +10,19 @@ definePageMeta({
 const route = useRoute()
 const userStore = useUserStore()
 const articleId = computed(() => route.params.id as string)
+const forceUpdate = ref(false)
 
 const { data, error, refresh } = useAsyncData(`queryArticleDetail/${articleId.value}`, () => queryArticleDetail(articleId.value))
 
+const { data: summary, refresh: refreshSummary, pending } = useLazyAsyncData(`aiSummary/${articleId.value}`, () => aiSummary(articleId.value, forceUpdate.value))
+
 const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
+
+async function handleReFresh() {
+  forceUpdate.value = true
+  await refreshSummary()
+  forceUpdate.value = false
+}
 </script>
 
 <template>
@@ -63,6 +72,30 @@ const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
             {{ tag.tagName }}
           </div>
         </template>
+      </div>
+      <div class="mb-4 border border-slate-200 rounded-[7px] p-4 transition-all space-y-2 dark:border-neutral-800">
+        <ClientOnly fallback-tag="span">
+          <template v-if="pending">
+            <a-skeleton />
+          </template>
+          <template v-else>
+            <div>
+              <div class="flex items-center">
+                <div class="i-carbon-chemistry" />
+                <div class="ml-1">
+                  AI生成的摘要
+                </div>
+                <div class="i-carbon-rotate-360 ml-2 cursor-pointer" @click="handleReFresh" />
+              </div>
+              <div class="mt-1 text-[12px]">
+                {{ summary }}
+              </div>
+            </div>
+          </template>
+          <template #fallback>
+            <a-skeleton />
+          </template>
+        </ClientOnly>
       </div>
       <MdViewer :value="data.content_markdown" />
     </template>
