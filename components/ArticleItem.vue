@@ -3,6 +3,10 @@ import { type IArticle } from '@/api/article'
 import { deleteArticle } from '@/api/article'
 
 const props = defineProps({
+  isSearch: {
+    type: Boolean,
+    default: () => false,
+  },
   article: {
     type: Object as PropType<IArticle>,
     default: () => { },
@@ -53,7 +57,7 @@ function goLink(path: string) {
 <template>
   <NuxtLink :to="toUrl" class="group relative hover:color-[#515767]">
     <div class="relative mb-4 rounded-2 bg-white px-4 py-3 transition-all transition-duration-[0.5s] hover-bg-slate-200">
-      <SvgIcon v-if="article.is_pinned" class="absolute right-0 top-[-1em] h-[2em] w-[2em] text-red" name="pin" />
+      <SvgIcon v-if="article.is_pinned && !isSearch" class="absolute right-0 top-[-1em] h-[2em] w-[2em] text-red" name="pin" />
       <div class="w-[100%] flex cursor-pointer justify-between">
         <div class="mr-2 flex flex-col justify-around">
           <div class="flex items-center">
