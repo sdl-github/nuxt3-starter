@@ -21,7 +21,12 @@ const emits = defineEmits(['refresh'])
 
 const timeAgo = useTimeAgo(new Date(props.article.created_at))
 
-const toUrl = computed(() => props.article.type === 'article' ? `/article/${props.article.id}` : `/scraps/${props.article.id}`)
+const toUrl = computed(() => {
+  if (props.article.type === 'say')
+    return ''
+
+  return props.article.type === 'article' ? `/article/${props.article.id}` : `/scraps/${props.article.id}`
+})
 
 const router = useRouter()
 
@@ -52,6 +57,11 @@ async function handleDel(id: string) {
 function goLink(path: string) {
   router.push(path)
 }
+const types = {
+  article: '文字',
+  scrap: '碎片',
+  say: '说说',
+}
 </script>
 
 <template>
@@ -66,7 +76,7 @@ function goLink(path: string) {
             >
               <div :class="`${article.type === 'article' ? 'i-carbon-document' : 'i-carbon-carbon'} text-[12px]`" />
               <div class="ml-1 text-[12px]">
-                {{ article.type === 'article' ? '文章' : '碎片' }}
+                {{ types[article.type] }}
               </div>
             </div>
             <div class="mx-2 max-w-500px cursor-pointer truncate text-[16px] font-bold leading-6">

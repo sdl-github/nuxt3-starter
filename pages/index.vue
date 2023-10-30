@@ -14,7 +14,7 @@ const params = reactive<IArticlePageParams>({
 })
 
 const hasNext = ref(true)
-
+const userStore = useUserStore()
 const data = ref<IArticle[]>([])
 
 await loadMoreData()
@@ -37,6 +37,12 @@ async function loadMoreData($state?: any) {
     $state && $state.error()
   }
 }
+
+function handleFastPostOk() {
+  data.value = []
+  params.pageNo = 0
+  loadMoreData()
+}
 </script>
 
 <template>
@@ -58,12 +64,13 @@ async function loadMoreData($state?: any) {
         </InfiniteLoading>
       </div>
       <div class="w-[250px]">
-        <div class="rounded bg-white p-2">
-          <div class="p-1">
-            TOP TODO
-          </div>
-          <a-skeleton />
-        </div>
+        <ClientOnly fallback-tag="span">
+          <FastPost v-if="userStore.user?.id" @ok="handleFastPostOk" />
+          <template #fallback>
+            <!-- this will be rendered on server side -->
+            <a-spin class="ml-4" />
+          </template>
+        </ClientOnly>
       </div>
     </div>
   </div>
