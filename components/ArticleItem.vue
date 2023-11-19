@@ -57,11 +57,6 @@ async function handleDel(id: string) {
 function goLink(path: string) {
   router.push(path)
 }
-const types = {
-  article: '文字',
-  scrap: '碎片',
-  say: '说说',
-}
 </script>
 
 <template>
@@ -70,16 +65,9 @@ const types = {
       <SvgIcon v-if="article.is_pinned && !isSearch" class="absolute right-0 top-[-1em] h-[2em] w-[2em] text-red" name="pin" />
       <div class="w-[100%] flex cursor-pointer justify-between">
         <div class="mr-2 flex flex-col justify-around">
+          <TypePoint :article="article" />
           <div class="flex items-center">
-            <div
-              :class="`rounded-10 flex items-center p-0.5 px-2 text-sm  transition-all ${article.type === 'article' ? 'text-white bg-#807aff' : 'text-white bg-#1677ff'}`"
-            >
-              <div :class="`${article.type === 'article' ? 'i-carbon-document' : 'i-carbon-carbon'} text-[12px]`" />
-              <div class="ml-1 text-[12px]">
-                {{ types[article.type] }}
-              </div>
-            </div>
-            <div class="mx-2 max-w-500px cursor-pointer truncate text-[16px] font-bold leading-6">
+            <div class="max-w-500px cursor-pointer truncate text-[16px] font-bold leading-6">
               {{ article.title }}
             </div>
           </div>

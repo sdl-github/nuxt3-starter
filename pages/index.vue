@@ -63,14 +63,8 @@ function handleFastPostOk() {
           </template>
         </InfiniteLoading>
       </div>
-      <div class="w-[250px]">
-        <ClientOnly fallback-tag="span">
-          <FastPost v-if="userStore.user?.id" @ok="handleFastPostOk" />
-          <template #fallback>
-            <!-- this will be rendered on server side -->
-            <a-spin class="ml-4" />
-          </template>
-        </ClientOnly>
+      <div class="h-[200px] w-[250px] rounded-[7px] bg-white p-2">
+        do some thing
       </div>
     </div>
   </div>
