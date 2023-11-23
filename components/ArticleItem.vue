@@ -62,9 +62,8 @@ function goLink(path: string) {
 <template>
   <NuxtLink :to="toUrl" class="group relative hover:color-[#515767]">
     <div class="relative mb-4 rounded-2 bg-white px-4 py-3 transition-all transition-duration-[0.5s] hover-bg-slate-200">
-      <SvgIcon v-if="article.is_pinned && !isSearch" class="absolute right-0 top-[-1em] h-[2em] w-[2em] text-red" name="pin" />
-      <div class="w-[100%] flex cursor-pointer justify-between">
-        <div class="mr-2 flex flex-col justify-around">
+      <div class="w-full flex cursor-pointer justify-between">
+        <div class="mr-2 w-full flex flex-col justify-around">
           <TypePoint :article="article" />
           <div class="flex items-center">
             <div class="max-w-500px cursor-pointer truncate text-[16px] font-bold leading-6">
