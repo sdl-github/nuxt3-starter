@@ -63,8 +63,8 @@ function handleFastPostOk() {
           </template>
         </InfiniteLoading>
       </div>
-      <div class="h-[200px] w-[250px] rounded-[7px] bg-white p-2">
-        do some thing
+      <div class="">
+        <AllTags />
       </div>
     </div>
   </div>
