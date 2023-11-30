@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { type IArticle } from '@/api/article'
 import { deleteArticle } from '@/api/article'
+import { getRandomColor } from '~/utils/utils'
 
 const props = defineProps({
   isSearch: {
@@ -101,13 +102,9 @@ function goLink(path: string) {
                   {{ article.comments_count }}
                 </div>
               </div>
-              <template v-for="tag in article.tags" :key="tag.tagId">
-                <div
-                  class="hover:bg-[#f1f5f9]-200 ml-2 rounded-full bg-[#f1f5f9] p-1 px-4 text-[0.8em] text-[#8a919f] transition-all"
-                >
-                  {{ tag.tagName }}
-                </div>
-              </template>
+              <a-tag v-for="(tag, index) in article.tags" :key="index" :color="getRandomColor(tag.tagName || '')" class="ml-2 cursor-pointer">
+                {{ tag.tagName }}
+              </a-tag>
             </div>
           </div>
         </div>

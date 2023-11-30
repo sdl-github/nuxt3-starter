@@ -122,3 +122,17 @@ export function getFileSize(size: number) {
     return `${(size / num ** 3).toFixed(2)}G` // G
   return `${(size / num ** 4).toFixed(2)}T` // T
 }
+
+export function getRandomColor(seed: string) {
+  const colors = ['processing', 'success', 'error', 'warning', 'magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple']
+  function hashCode(str: string) {
+    let hash = 0
+    for (let i = 0; i < str.length; i++) {
+      hash = Math.imul(31, hash) + str.charCodeAt(i)
+      hash |= 0 // Convert to 32bit integer
+    }
+    return Math.abs(hash)
+  }
+  const randomIndex = hashCode(seed) % colors.length
+  return colors[randomIndex]
+}

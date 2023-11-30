@@ -2,6 +2,7 @@
 import { aiSummary, queryArticleDetail } from '@/api/article'
 import '@/components/MdEditor/theme/smart-blue.css'
 import MdViewer from '@/components/MdEditor/MdViewer.vue'
+import { getRandomColor } from '~/utils/utils'
 
 definePageMeta({
   keepalive: true,
@@ -67,11 +68,9 @@ async function handleReFresh() {
         </div>
       </div>
       <div class="mb-4 flex">
-        <template v-for="tag in data.tags" :key="tag.tagId">
-          <div class="hover:bg-[#f1f5f9]-200 ml-2 rounded-full bg-[#f1f5f9] p-1 px-4 text-[0.8em] text-[#8a919f] transition-all">
-            {{ tag.tagName }}
-          </div>
-        </template>
+        <a-tag v-for="(tag, index) in data.tags" :key="index" :color="getRandomColor(tag.tagName || '')" class="ml-2 cursor-pointer">
+          {{ tag.tagName }}
+        </a-tag>
       </div>
       <div class="mb-4 border border-slate-200 rounded-[7px] p-4 transition-all space-y-2 dark:border-neutral-800">
         <ClientOnly fallback-tag="span">
