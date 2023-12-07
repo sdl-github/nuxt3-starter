@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { queryArticleDetail } from '@/api/article'
+import { aiSummary, queryArticleDetail } from '@/api/article'
 import '@/components/MdEditor/theme/smart-blue.css'
 import { createComment, deleteComment, updateArticle } from '@/api/comment'
 import type { IComment, ISaveComment } from '@/api/comment'
@@ -16,6 +16,9 @@ const saveLoading = ref(false)
 const { data, error, refresh: mutate } = useAsyncData(`queryArticleDetail/${articleId.value}`, () => queryArticleDetail(articleId.value))
 
 const isAuthor = computed(() => data.value?.userId === userStore.user?.id)
+const forceUpdate = ref(false)
+
+const { data: summary, refresh: refreshSummary, pending } = useLazyAsyncData(`aiSummary/${articleId.value}`, () => aiSummary(articleId.value, forceUpdate.value))
 
 const commentForm = ref<ISaveComment>({
   id: '',
@@ -28,6 +31,12 @@ const updateCommentForm = ref<ISaveComment>({
   content_html: '',
   content_markdown: '',
 })
+
+async function handleReFresh() {
+  forceUpdate.value = true
+  await refreshSummary()
+  forceUpdate.value = false
+}
 
 async function handleSaveComment() {
   if (!commentForm.value.content_markdown) {
@@ -136,6 +145,31 @@ function handleCancelUpdate() {
         <h1 class="mb-2 text-[600px] text-1.5rem color-#252933">
           {{ data.title }}
         </h1>
+      </div>
+
+      <div class="mb-4 border border-slate-200 rounded-[7px] bg-white p-4 transition-all space-y-2 dark:border-neutral-800">
+        <ClientOnly fallback-tag="span">
+          <template v-if="pending">
+            <a-skeleton />
+          </template>
+          <template v-else>
+            <div>
+              <div class="flex items-center">
+                <div class="i-carbon-chemistry" />
+                <div class="ml-1">
+                  AI生成的摘要
+                </div>
+                <div class="i-carbon-rotate-360 ml-2 cursor-pointer" @click="handleReFresh" />
+              </div>
+              <div class="mt-1 text-[12px]">
+                {{ summary }}
+              </div>
+            </div>
+          </template>
+          <template #fallback>
+            <a-skeleton />
+          </template>
+        </ClientOnly>
       </div>
 
       <div class="flex justify-between">
