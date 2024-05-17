@@ -1,6 +1,5 @@
 {
   "private": true,
-  "packageManager": "pnpm@8.6.11",
   "scripts": {
     "build": "cross-env NODE_ENV=production run-s gen:css build:nuxt",
     "build:nuxt": "nuxt build",
